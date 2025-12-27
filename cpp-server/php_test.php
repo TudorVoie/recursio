@@ -35,7 +35,7 @@ foreach ($matrix as $row) {
 }
 echo "</table>";
 
-// Optional: make matrix available in JS
+
 echo "<script>const matrix = " . json_encode($matrix) . ";</script>";
 ?>
 
