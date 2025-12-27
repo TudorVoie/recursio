@@ -97,7 +97,6 @@ int main()
             j++;
         }
     }
-
     // --- Write matrix to text file with dimensions ---
     ofstream out("matrix.txt");
     out << maximi <<" "<< maxim << "\n\n";
@@ -107,7 +106,8 @@ int main()
         for(j=1; j<=maxim; j++)
         {
             int val = a[i][j];
-            out << val << " ";
+            out << val;
+            if (j < maxim) out << " "; // space only between numbers
 
         }
         out << endl;
