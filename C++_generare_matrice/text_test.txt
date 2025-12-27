@@ -1,0 +1,10 @@
+Breakpoint 1, f (a=15, b=25) at main.cpp:20
+Breakpoint 1, f (a=25, b=15) at main.cpp:20
+Breakpoint 1, f (a=15, b=10) at main.cpp:20
+Breakpoint 1, f (a=10, b=5) at main.cpp:20
+Breakpoint 1, f (a=5, b=0) at main.cpp:20
+Value returned is $1 = 5
+Value returned is $2 = 5
+Value returned is $3 = 5
+Value returned is $4 = 5
+Value returned is $5 = 5
