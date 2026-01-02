@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int a[101][101];
+int a[101][101], a2[101][101];
 int verifica[200];
 
 int main()
@@ -20,9 +20,11 @@ int main()
         return 1;
     }
 
-    int i=0,sum=1,j=1,maxim=-1,maximi=-1,ok=0,k;
+    int i=0,sum=1,j=1,maxim=-1,maximi=-1,ok=0,k,x;
+
     while (fgets(line, sizeof(line), f))
     {
+        //pentru breakpoint
         if (strstr(line, target1))
         {
             ok=1;
@@ -45,14 +47,16 @@ int main()
             }
             i++;
         }
+        //pentru value
         else if (strstr(line, target2))
         {
+            //pentru capat de creanga
             if(ok==1)
                 for(j=2; j<=100; j++)
                 {
                     if(a[i][j]==0)
                     {
-                        a[i][j-1]=9;
+                        a[i][j-1]=-2;
                         j=101;
                     }
                 }
@@ -76,27 +80,54 @@ int main()
     }
 
     fclose(f);
-
+    //pentru spatiu coloana ocupata anterior
     for(i=1; i<maximi; i++)
     {
         j=1;
         sum=0;
         while(a[i][j]!=0)
         {
-            if(a[i][j]!=-1 && a[i][j]!=9)
+            if(a[i][j]!=-1 && a[i][j]!=-2)
                 sum+=a[i][j];
             else sum+=1;
-            if(a[i][j]==9 || a[i][j]==-1)
+            if(a[i][j]==-2 || a[i][j]==-1)
             {
                 k=1;
                 while(a[i+1][k]!=0) k++;
                 if(k>maxim) maxim=k;
-                for(j=k+1; j>sum; j--) a[i+1][j]=a[i+1][j-1];
+                for(x=k+1; x>sum; x--) a[i+1][x]=a[i+1][x-1];
                 a[i+1][sum]=-1;
             }
             j++;
         }
     }
+    //suma patratelor
+    for(i=maximi-1; i>=1; i--)
+    {
+        j=1;
+        sum=1;
+        while(a[i][j]!=0 && j<=maxim)
+        {
+            int rez=0;
+
+            if(a[i][j]!=-2 && a[i][j]!=-1)
+            {
+                for(k=1; k<=a[i][j]; k++)
+                {
+                    if(a[i+1][sum]!=-2 && a[i+1][sum]!=-1)
+                        rez+=a[i+1][sum];
+                    else if(a[i+1][sum]==-2)
+                        rez++;
+                    sum++;
+                }
+
+                a[i][j]=rez;
+            }
+            else sum++;
+        j++;
+        }
+    }
+
     // --- Write matrix to text file with dimensions ---
     ofstream out("matrix.txt");
     out << maximi <<" "<< maxim << "\n\n";
@@ -115,5 +146,8 @@ int main()
     out.close();
 
     cout << "Matrix saved to matrix.txt\n";
+
+
+
     return 0;
 }

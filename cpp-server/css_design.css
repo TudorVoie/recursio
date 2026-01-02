@@ -1,0 +1,15 @@
+/* css_design.css */
+.cell {
+    border: 1px solid black;
+    box-sizing: border-box;  /* ensures border doesn’t increase size */
+    flex: 0 0 auto;
+}
+body {
+    margin: 0;       /* removes default margin */
+    padding: 0;      /* optional: removes default padding */
+    box-sizing: border-box;
+}
+.whitecell {
+    box-sizing: border-box;  /* ensures border doesn’t increase size */
+    flex: 0 0 auto;
+}
