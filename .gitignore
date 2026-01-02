@@ -1,0 +1,6 @@
+*.exe
+*.o
+*.out
+gdb.txt
+input.cpp
+.vscode/settings.json
