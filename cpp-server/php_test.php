@@ -17,23 +17,6 @@ for ($i = 0; $i < $rows; $i++) {
     $row = preg_split('/\s+/', $lines[$i]);
     $matrix[] = array_map('intval', $row);
 }
-<<<<<<< HEAD
-=======
-
-// Display matrix as HTML table
-echo "<table>";
-foreach ($matrix as $row) {
-    echo "<tr>";
-    foreach ($row as $cell) {
-        echo "<td>" . ($cell === 0 ? "" : $cell) . "</td>";
-    }
-    echo "</tr>";
-}
-echo "</table>";
-
-
-echo "<script>const matrix = " . json_encode($matrix) . ";</script>";
->>>>>>> 993d658a97eb992cba2791cdcc4f6efa9bf257fb
 ?>
 
 <script>
