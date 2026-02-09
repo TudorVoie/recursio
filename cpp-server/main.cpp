@@ -5,8 +5,8 @@
 
 using namespace std;
 
-int a[101][101], a2[101][101];
-int verifica[200];
+int a[101][101], a2[101][101],anime[101][101],matrice_comparatie[101][101];
+int verifica[200], progresare[1000];
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
         return 1;
     }
 
-    int i=0,sum=1,j=1,maxim=-1,maximi=-1,ok=0,k,x;
+    int i=0,sum=1,j=1,maxim=-1,maximi=-1,ok=0,k,x,progresare_cnt=0,prima_oara=0;
 
     while (fgets(line, sizeof(line), f))
     {
@@ -45,6 +45,12 @@ int main()
                 a[i+1][1]+=1;
                 if(maxim<1) maxim=1;
             }
+            if(prima_oara==1)
+            {
+                progresare_cnt++;
+                progresare[progresare_cnt]=1;
+            }
+            prima_oara=1;
             i++;
         }
         //pentru value
@@ -76,6 +82,8 @@ int main()
                     }
                 }
             }
+            progresare_cnt++;
+            progresare[progresare_cnt]=-1;
         }
     }
 
@@ -101,6 +109,9 @@ int main()
             j++;
         }
     }
+    for(i=1; i<=maximi; i++)
+        for(j=1; j<=maxim; j++)
+            a2[i][j]=a[i][j];
     //suma patratelor
     for(i=maximi-1; i>=1; i--)
     {
@@ -124,29 +135,153 @@ int main()
                 a[i][j]=rez;
             }
             else sum++;
-        j++;
+            j++;
         }
     }
 
-    // --- Write matrix to text file with dimensions ---
+    // --- Write first matrix ---
     ofstream out("matrix.txt");
-    out << maximi <<" "<< maxim << "\n\n";
+    out << maximi << " " << maxim << "\n\n";
 
-    for(i=1; i<=maximi; i++)
+    for (i = 1; i <= maximi; i++)
     {
-        for(j=1; j<=maxim; j++)
+        for (j = 1; j <= maxim; j++)
         {
-            int val = a[i][j];
-            out << val;
-            if (j < maxim) out << " "; // space only between numbers
-
+            out << a[i][j];
+            if (j < maxim) out << " ";
         }
-        out << endl;
+        out << "\n";
     }
     out.close();
 
-    cout << "Matrix saved to matrix.txt\n";
+// --- Write second matrix ---
+    ofstream fout("rute_matrix.txt");
+    fout << maximi << " " << maxim << "\n\n";
 
+    for (i = 1; i <= maximi; i++)
+    {
+        for (j = 1; j <= maxim; j++)
+        {
+            fout << a2[i][j];
+            if (j < maxim) fout << " ";
+        }
+        fout << "\n";
+    }
+    fout.close();
+
+
+// --- Write third matrix ---
+    ofstream fout2("drawing.txt");
+    fout2 << progresare_cnt << "\n\n";
+
+    for (i = 1; i < progresare_cnt; i++)
+    {
+        fout2 << progresare[i] << " ";
+    }
+    fout2.close();
+
+    cout << "Matrices saved correctly\n";
+
+    for(i=1; i<=maximi; i++)
+        for(j=1; j<=maxim; j++)
+            if(a2[i][j]==-1)
+                anime[i][j]=-1;
+
+    for(i=1; i<=maximi; i++)
+        for(j=1; j<=maxim; j++)
+            if(a2[i][j]==-2)
+                matrice_comparatie[i][j]=1;
+            else matrice_comparatie[i][j]=a2[i][j];
+
+
+    i = 0;
+    anime[0][0] = 1;
+    int ver_descrestere = 0;
+
+    for (int k = 0; k < progresare_cnt; k++)
+    {
+        int j = 0;
+
+        if (progresare[k] == 1)
+        {
+            if (ver_descrestere == 1)
+            {
+                anime[i][j]++;
+                ver_descrestere = 0;
+            }
+
+            i++;
+            int verificare;
+
+            if (anime[i][j] == -1)
+                verificare = 1;
+            else if (anime[i][j] >= matrice_comparatie[i][j])
+                verificare = 1;
+            else
+                verificare = 0;
+
+            while (verificare == 1)
+            {
+                if (anime[i][j] == -1)
+                {
+                    verificare = 1;
+                    j++;
+                }
+                else if (anime[i][j] >= matrice_comparatie[i][j])
+                {
+                    verificare = 1;
+                    j++;
+                }
+                else
+                {
+                    verificare = 0;
+                }
+            }
+
+            anime[i][j]++;
+        }
+        else
+        {
+            i--;
+            j = 0;
+
+            int verificare;
+
+            if (anime[i][j] == -1)
+                verificare = 1;
+            else if (anime[i][j] >= matrice_comparatie[i][j])
+                verificare = 1;
+            else
+                verificare = 0;
+
+            while (verificare == 1)
+            {
+                if (anime[i][j] == -1)
+                {
+                    verificare = 1;
+                    j++;
+                }
+                else if (anime[i][j] >= matrice_comparatie[i][j])
+                {
+                    verificare = 1;
+                    j++;
+                }
+                else
+                {
+                    verificare = 0;
+                }
+            }
+            ver_descrestere = 1;
+        }
+    }
+    for(i=1; i<=maximi; i++)
+    {
+        for(j=1; i<=maxim; j++)
+        {
+            cout<<anime[i][j]<<" ";
+        }
+        cout<<endl;
+    }
 
 
     return 0;

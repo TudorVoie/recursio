@@ -8,6 +8,7 @@
 <body>
 <div id="container" class="container67">
 </div>
+<svg id="svg-lines"></svg>
 <?php
 $lines = file("matrix.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 list($rows, $cols) = explode(" ", array_shift($lines));
@@ -17,23 +18,25 @@ for ($i = 0; $i < $rows; $i++) {
     $row = preg_split('/\s+/', $lines[$i]);
     $matrix[] = array_map('intval', $row);
 }
-<<<<<<< HEAD
-=======
 
-// Display matrix as HTML table
-echo "<table>";
-foreach ($matrix as $row) {
-    echo "<tr>";
-    foreach ($row as $cell) {
-        echo "<td>" . ($cell === 0 ? "" : $cell) . "</td>";
-    }
-    echo "</tr>";
+$lines2 = file("rute_matrix.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+list($rows2, $cols2) = explode(" ", array_shift($lines2));
+
+$matrix2 = [];
+for ($i = 0; $i < $rows2; $i++) {
+    $row2 = preg_split('/\s+/', $lines2[$i]);
+    $matrix2[] = array_map('intval', $row2);
 }
-echo "</table>";
+
+$lines3 = file("drawing.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+$progresare_cnt = intval(array_shift($lines3));
+
+$values = preg_split('/\s+/', implode(" ", $lines3));
+
+$progresare = array_map('intval', $values);
 
 
-echo "<script>const matrix = " . json_encode($matrix) . ";</script>";
->>>>>>> 993d658a97eb992cba2791cdcc4f6efa9bf257fb
 ?>
 
 <script>
@@ -42,9 +45,21 @@ echo "<script>const matrix = " . json_encode($matrix) . ";</script>";
         rows: <?= $rows ?>,
         cols: <?= $cols ?>
     };
+
+    window.APP2 = {
+        matrix2: <?= json_encode($matrix2) ?>,
+        rows2: <?= $rows2 ?>,
+        cols2: <?= $cols2 ?>
+    };
+    window.APP3 = {
+        count: <?= $progresare_cnt ?>,
+        data: <?= json_encode($progresare) ?>
+    };
 </script>
 
+
 <script src="js_generation.js"></script>
+<script src="Animation.js"></script>
 
 </body>
 </html>

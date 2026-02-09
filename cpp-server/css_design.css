@@ -1,15 +1,86 @@
-/* css_design.css */
+/* ====== Cells ====== */
 .cell {
-    border: 1px solid black;
-    box-sizing: border-box;  /* ensures border doesn’t increase size */
-    flex: 0 0 auto;
-}
-body {
-    margin: 0;       /* removes default margin */
-    padding: 0;      /* optional: removes default padding */
     box-sizing: border-box;
-}
-.whitecell {
-    box-sizing: border-box;  /* ensures border doesn’t increase size */
     flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.whitecell {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+
+/* ====== Circles with smooth shade ====== */
+.circle_div,
+.last_circle_div {
+    position: relative;          /* needed for z-index */
+    z-index: 2;                  /* in front of lines */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: white;      /* fully visible initially */
+    opacity: 1;                   /* always visible */
+    transform: scale(1);
+    transition: transform 0.2s ease; /* slower shade + optional pop */
+}
+
+/* When line reaches circle */
+.circle_div.show,
+.last_circle_div.show {
+    background-color: #E74C3C;        /* smooth transition to red */
+    transform: scale(3);        /* optional subtle pop */
+}
+
+/* ====== Page base ====== */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* ====== Main container ====== */
+.container67 {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+/* ====== Hide scrollbar ====== */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* ====== SVG lines layer ====== */
+#svg-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;  /* behind circles */
+}
+
+/* ====== Fade-in div ====== */
+#myDiv {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    position: relative;
+    z-index: 10;
+}
+
+#myDiv.show {
+    opacity: 1;
+    transform: translateY(0);
 }
