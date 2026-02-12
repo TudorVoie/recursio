@@ -8,6 +8,10 @@
 </head>
 
 <body>
+    <div id="dragBox">
+        <div id="dragBoxHeader">↔</div>
+        <textarea class="code_input_field" style="width: 20vw; height: 5vh;" placeholder="Introdu codul"></textarea>
+    </div>
     <div id="container" class="container67">
     </div>
     <svg id="svg-lines"></svg>
@@ -38,6 +42,7 @@
 
     $progresare = array_map('intval', $values);
 
+
     ?>
 
     <script>
@@ -61,6 +66,7 @@
 
     <script src="js_generation.js"></script>
     <script src="Animation.js"></script>
+    <script src="Code_field.js"></script>
 
 </body>
 

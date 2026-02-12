@@ -16,8 +16,8 @@
 .last_circle_div {
   position: relative; /* needed for z-index */
   z-index: 2; /* in front of lines */
-  width: 10px;
-  height: 10px;
+  width: 1.2vw;
+  height: 1.2vw;
   border-radius: 50%;
   background-color: white; /* fully visible initially */
   opacity: 1; /* always visible */
@@ -29,7 +29,7 @@
 .circle_div.show,
 .last_circle_div.show {
   background-color: #e74c3c; /* smooth transition to red */
-  transform: scale(3); /* optional subtle pop */
+  transform: scale(1.5); /* optional subtle pop */
 }
 
 /* ====== Page base ====== */
@@ -83,4 +83,27 @@ body {
 #myDiv.show {
   opacity: 1;
   transform: translateY(0);
+}
+#dragBox {
+  position: absolute;
+  z-index: 9;
+  background-color: #9f9f9f;
+  text-align: center;
+  border: 1px solid #d3d3d3;
+  top: 100px;
+  left: 100px;
+  padding: 2px;
+}
+
+#dragBoxHeader {
+  padding: 10px;
+  cursor: move;
+  background-color: #21f336;
+  color: #fff;
+}
+.code_input_field {
+  height: 30vh;
+  width: 20vh;
+  min-width: 200px; /* cannot shrink below 200px */
+  min-height: 80px; /* cannot shrink below 80px */
 }
