@@ -28,7 +28,7 @@
 /* When line reaches circle */
 .circle_div.show,
 .last_circle_div.show {
-  background-color: #e74c3c; /* smooth transition to red */
+  background-color: #4d3ce7; /* smooth transition to red */
   transform: scale(1.5); /* optional subtle pop */
 }
 
@@ -75,7 +75,9 @@ body {
 #myDiv {
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
   position: relative;
   z-index: 10;
 }
@@ -86,24 +88,84 @@ body {
 }
 #dragBox {
   position: absolute;
+  text-align: center;
   z-index: 9;
   background-color: #9f9f9f;
-  text-align: center;
   border: 1px solid #d3d3d3;
   top: 100px;
   left: 100px;
-  padding: 2px;
+  padding: 5px; /* space inside box so textareas don't touch edges */
+
+  width: 20vw;
+  min-width: 450px;
+  min-height: 250px;
+
+  display: flex;
+  flex-direction: column;
+
+  resize: both;
+  overflow: hidden; /* allow flex children to control sizing */
+  box-sizing: border-box;
 }
 
 #dragBoxHeader {
   padding: 10px;
   cursor: move;
-  background-color: #21f336;
+  background-color: #bbf321;
   color: #fff;
+  flex: 0 0 auto; /* fixed header */
 }
+
+/* container for the textareas */
+.text_div {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* fills remaining space under header */
+  gap: 2.5px; /* space between textareas */
+  min-height: 0; /* critical for shrinking in flexbox */
+}
+
+/* TOP textarea */
 .code_input_field {
-  height: 30vh;
-  width: 20vh;
-  min-width: 200px; /* cannot shrink below 200px */
-  min-height: 80px; /* cannot shrink below 80px */
+  flex: 9 1 0; /* 90% of .text_div height */
+  width: 100%;
+  resize: none;
+  padding: 2.5px; /* inner padding so text doesn’t touch edges */
+  box-sizing: border-box;
+  min-height: 0; /* allows flex to shrink properly */
+}
+
+/* BOTTOM textarea */
+.value_input_field {
+  flex: 1 1 0; /* 10% of .text_div height */
+  width: 100%;
+  resize: none;
+  padding: 5px;
+  box-sizing: border-box;
+  min-height: 0;
+}
+#executeButton {
+  width: 100%; /* spans full width of the box */
+  padding: 2px 0; /* very small vertical padding */
+  background-color: #21f336; /* match header */
+  color: #fff;
+  border: none;
+  border-radius: 3px; /* slightly rounded */
+  cursor: pointer;
+  font-size: 14px; /* smaller font */
+  font-weight: bold;
+  text-align: center;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+  box-sizing: border-box; /* ensure padding doesn’t overflow */
+  margin-top: 5px; /* small space from textareas */
+}
+
+#executeButton:hover {
+  background-color: #1acc2e; /* hover effect */
+}
+
+#executeButton:active {
+  transform: scale(0.97); /* press effect */
 }

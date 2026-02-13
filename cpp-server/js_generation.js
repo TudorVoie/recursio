@@ -8,7 +8,7 @@ let anime = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
 let drawing_x = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
 let drawing_y = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
 let matrice_comparatie = Array.from({ length: rows2 }, () =>
-  Array(cols2).fill(0)
+  Array(cols2).fill(0),
 );
 const container = document.getElementById("container");
 const width = container.clientWidth;
@@ -120,16 +120,22 @@ function Situarea_Punctului() {
 for (let i = 0; i < rows2; i++)
   for (let j = 0; j < cols2; j++) if (matrix2[i][j] == -1) anime[i][j] = -1;
 
+const svg = document.getElementById("svg-lines"); // your SVG element
+const svgRect = svg.getBoundingClientRect();
+
 for (let i = 0; i < rows2; i++) {
   for (let j = 0; j < cols2; j++) {
     if (matrix2[i][j] != -1 && matrix2[i][j] != 0) {
       const circle_draw = document.getElementById(`circle-${i}-${j}`);
       const rect = circle_draw.getBoundingClientRect();
-      drawing_x[i][j] = rect.left + rect.width / 2;
-      drawing_y[i][j] = rect.top + rect.height / 2;
+
+      // Coordinates relative to the SVG
+      drawing_x[i][j] = rect.left - svgRect.left + rect.width / 2;
+      drawing_y[i][j] = rect.top - svgRect.top + rect.height / 2;
     }
   }
 }
+
 for (let i = 0; i < rows2; i++)
   for (let j = 0; j < cols2; j++)
     if (matrix2[i][j] == -2) matrice_comparatie[i][j] = 1;

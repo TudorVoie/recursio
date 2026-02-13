@@ -10,7 +10,11 @@
 <body>
     <div id="dragBox">
         <div id="dragBoxHeader">↔</div>
-        <textarea class="code_input_field" style="width: 20vw; height: 5vh;" placeholder="Introdu codul"></textarea>
+        <div class="text_div">
+            <textarea class="code_input_field" placeholder="Introdu codul"></textarea>
+            <textarea class="value_input_field" rows="1" placeholder="Introdu valorile"></textarea>
+        </div>
+        <button id="executeButton">Execută</button>
     </div>
     <div id="container" class="container67">
     </div>

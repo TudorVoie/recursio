@@ -1,22 +1,21 @@
-// Start the animation
+// Start the animation after everything is loaded
 window.onload = function () {
-  // Start the animation ONLY after everything is loaded
   Animarea_Liniilor();
 };
+
 async function Animarea_Liniilor() {
   let ult_poz_x = drawing_x[0][0];
   let ult_poz_y = drawing_y[0][0];
-  let poz_x;
-  let poz_y;
+  let poz_x, poz_y;
   let i = 0;
   progresare_cnt--;
   anime[0][0] = 1;
   let ver_descrestere = 0;
   let j;
 
-  // Show first circle and wait for its animation to complete
+  // Show first circle and wait
   await show(0, 0);
-  await new Promise((resolve) => setTimeout(resolve, 50)); // tiny post-animation wait
+  await new Promise((resolve) => setTimeout(resolve, 50));
 
   for (let k = 0; k < progresare_cnt; k++) {
     if (progresare[k] == 1) {
@@ -33,8 +32,8 @@ async function Animarea_Liniilor() {
       else verificare = 0;
 
       while (verificare == 1) {
-        if (anime[i][j] == -1) (verificare = 1), j++;
-        else if (anime[i][j] >= matrice_comparatie[i][j]) (verificare = 1), j++;
+        if (anime[i][j] == -1) j++;
+        else if (anime[i][j] >= matrice_comparatie[i][j]) j++;
         else verificare = 0;
       }
 
@@ -42,13 +41,9 @@ async function Animarea_Liniilor() {
       poz_x = drawing_x[i][j];
       poz_y = drawing_y[i][j];
 
-      // wait for line animation
       await animateLineWithEvent(ult_poz_x, ult_poz_y, poz_x, poz_y);
 
-      // show circle (starts animation)
       await show(i, j);
-
-      // ✅ tiny wait AFTER circle animation before continuing
       await new Promise((resolve) => setTimeout(resolve, 50));
 
       ult_poz_x = poz_x;
@@ -63,8 +58,8 @@ async function Animarea_Liniilor() {
       else verificare = 0;
 
       while (verificare == 1) {
-        if (anime[i][j] == -1) (verificare = 1), j++;
-        else if (anime[i][j] >= matrice_comparatie[i][j]) (verificare = 1), j++;
+        if (anime[i][j] == -1) j++;
+        else if (anime[i][j] >= matrice_comparatie[i][j]) j++;
         else verificare = 0;
       }
 
@@ -75,19 +70,18 @@ async function Animarea_Liniilor() {
   }
 }
 
-/* 🔧 Show circle function (async) */
+/* 🔧 Show circle function (SVG-compatible) */
 async function show(i, j) {
   const circle = document.getElementById(`circle-${i}-${j}`);
   if (!circle) return;
 
-  // add .show to trigger smooth shade + pop
   circle.classList.add("show");
 
-  // optional: wait for circle's CSS transition duration (~0.3s)
+  // Wait for CSS transition (~0.3s)
   await new Promise((resolve) => setTimeout(resolve, 300));
 }
 
-/// Animate line
+/* 🔧 Animate line inside SVG */
 function animateLineWithEvent(ult_poz_x, ult_poz_y, poz_x, poz_y) {
   return new Promise((resolve) => {
     const xs = [ult_poz_x, poz_x];
@@ -95,7 +89,7 @@ function animateLineWithEvent(ult_poz_x, ult_poz_y, poz_x, poz_y) {
 
     const line = document.createElementNS(
       "http://www.w3.org/2000/svg",
-      "polyline"
+      "polyline",
     );
     const pointsString = xs.map((x, i) => `${x},${ys[i]}`).join(" ");
     line.setAttribute("points", pointsString);
@@ -110,7 +104,8 @@ function animateLineWithEvent(ult_poz_x, ult_poz_y, poz_x, poz_y) {
     line.style.strokeDasharray = length;
     line.style.strokeDashoffset = length;
 
-    line.getBoundingClientRect(); // force style
+    // force rendering
+    line.getBoundingClientRect();
 
     line.style.transition = "stroke-dashoffset 0.5s linear";
     line.style.strokeDashoffset = 0;
