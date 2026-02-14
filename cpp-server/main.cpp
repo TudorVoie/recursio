@@ -2,15 +2,23 @@
 #include <string.h>
 #include <iostream>
 #include <fstream>
+#include <cstring>
 
 using namespace std;
 
 int a[101][101], a2[101][101],anime[101][101],matrice_comparatie[101][101];
 int verifica[200], progresare[1000];
 
-int main()
+int main(int argc, char* argv[])
 {
-    FILE *f = fopen("text_test.txt", "r");
+    char tudor[256] = "text_test.txt";
+
+    if (argc > 1) {
+        snprintf(tudor, sizeof(tudor), "%s/text_test.txt", argv[1]);
+    }
+
+    
+    FILE *f = fopen(tudor, "r");
     char line[1024];
     char target1[] = "Breakpoint";
     char target2[] = "Value";
@@ -139,8 +147,21 @@ int main()
         }
     }
 
+
+    char tudor1[256] = "matrix.txt";
+    char tudor2[256] = "rute_matrix.txt";
+    char tudor3[256] = "drawing.txt";
+
+    if (argc > 1) {
+        snprintf(tudor1, sizeof(tudor1), "%s/matrix.txt", argv[1]);
+        snprintf(tudor2, sizeof(tudor2), "%s/rute_matrix.txt", argv[1]);
+        snprintf(tudor3, sizeof(tudor3), "%s/drawing.txt", argv[1]);
+    }
+
+
     // --- Write first matrix ---
-    ofstream out("matrix.txt");
+    //ofstream out("matrix.txt");
+    ofstream out(tudor1);
     out << maximi << " " << maxim << "\n\n";
 
     for (i = 1; i <= maximi; i++)
@@ -155,7 +176,8 @@ int main()
     out.close();
 
 // --- Write second matrix ---
-    ofstream fout("rute_matrix.txt");
+    //ofstream fout("rute_matrix.txt");
+    ofstream fout(tudor2);
     fout << maximi << " " << maxim << "\n\n";
 
     for (i = 1; i <= maximi; i++)
@@ -171,7 +193,8 @@ int main()
 
 
 // --- Write third matrix ---
-    ofstream fout2("drawing.txt");
+    //ofstream fout2("drawing.txt");
+    ofstream fout2(tudor3);
     fout2 << progresare_cnt << "\n\n";
 
     for (i = 1; i < progresare_cnt; i++)
@@ -181,5 +204,6 @@ int main()
     fout2.close();
 
     cout << "Matrices saved correctly\n";
+
     return 0;
 }
