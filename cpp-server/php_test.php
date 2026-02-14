@@ -59,6 +59,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+$token = $_POST['cf-turnstile-response'] ?? '';
+
+$secret = "0x4AAAAAACci1OQ3VmRe6W805ijnpP-Hn9A";
+
+$data = [
+    'secret' => $secret,
+    'response' => $token,
+    'remoteip' => $_SERVER['REMOTE_ADDR']
+];
+
+$options = [
+    'http' => [
+        'header'  => "Content-type: application/x-www-form-urlencoded",
+        'method'  => 'POST',
+        'content' => http_build_query($data),
+        'timeout' => 5
+    ]
+];
+
+$context = stream_context_create($options);
+
+$result = file_get_contents(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    false,
+    $context
+);
+
+$verify = json_decode($result, true);
+
+if (!$verify['success']) {
+    die("Captcha failed.");
+}
+
+
     $code = $_POST['code'] ?? '';
     $call = $_POST['call'] ?? '';
     $_SESSION['code'] = $code;
@@ -98,6 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Matrix Viewer</title>
     <link rel="stylesheet" href="css_design.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
 <body>
@@ -108,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea name="code" class="code_input_field" placeholder="Introdu codul"><?= htmlspecialchars($_SESSION['code'] ?? '') ?></textarea>
             <textarea name="call" class="value_input_field" rows="1" placeholder="Introdu valorile"><?= htmlspecialchars($_SESSION['call'] ?? '') ?></textarea>
         </div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAACci1LpGFIzxv4J-"></div>
         <button type="submit" id="executeButton">Execută</button>
     </div>
     </form> 
@@ -173,6 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="js_generation.js"></script>
     <script src="Animation.js"></script>
     <script src="Code_field.js"></script>
+    
 
 <?php if ($output !== ''): ?>
 <pre><?= htmlspecialchars($output) ?></pre>
