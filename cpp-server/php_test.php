@@ -141,6 +141,6 @@ window.addEventListener('DOMContentLoaded', runAnimationIfReady);
 <?php if ($output !== ''): ?>
 <pre><?= htmlspecialchars($output) ?></pre>
 <?php endif; ?>
-
+<?php exit ?>
 </body>
 </html>

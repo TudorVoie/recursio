@@ -108,3 +108,5 @@ function animateLineWithEvent(ult_poz_x, ult_poz_y, poz_x, poz_y) {
     line.addEventListener("transitionend", resolve, { once: true });
   });
 }
+
+

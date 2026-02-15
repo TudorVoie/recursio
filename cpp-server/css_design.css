@@ -11,35 +11,34 @@
   flex: 0 0 auto;
 }
 
-/* ====== Circles with smooth shade ====== */
-.circle_div,
-.last_circle_div {
-  position: relative; /* needed for z-index */
-  z-index: 2; /* in front of lines */
-  width: 1.2vw;
-  height: 1.2vw;
+.circle_div {
+  position: absolute;      /* allow free positioning */
+  top: 50%;                /* center vertically */
+  left: 50%;               /* center horizontally */
+  transform: translate(-50%, -50%); /* truly center from middle */
+  
+  width: 1px;
+  height: 1px;
   border-radius: 50%;
-  background-color: white; /* fully visible initially */
-  opacity: 1; /* always visible */
-  transform: scale(1);
-  transition: transform 0.2s ease; /* slower shade + optional pop */
+  background-color: white;
+  opacity: 1;
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+  z-index: 1;
 }
 
-/* When line reaches circle */
-.circle_div.show,
-.last_circle_div.show {
-  background-color: #4d3ce7; /* smooth transition to red */
-  transform: scale(1.5); /* optional subtle pop */
+.circle_div.show {
+  width: var(--circle-target);
+  height: var(--circle-target);
+  background-color: #4d3ce7;
 }
+
+
 
 /* ====== Page base ====== */
 html,
 body {
-  width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 /* ====== Main container ====== */
@@ -50,26 +49,23 @@ body {
   z-index: 1;
 }
 
-/* ====== Hide scrollbar ====== */
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
 
 /* ====== SVG lines layer ====== */
 #svg-lines {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  z-index: 0; /* behind circles */
+  z-index: 0;
 }
+#svg-lines {
+  transform: scale(1);
+  transform-origin: top left;
+}
+
+
 
 /* ====== Fade-in div ====== */
 #myDiv {

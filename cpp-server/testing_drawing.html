@@ -1,64 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fade In with Shadow</title>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: "Lato", sans-serif;
+  margin: 0;
+}
 
-    .box {
-      width: 150px;
-      height: 150px;
-      background-color: #3498db;
-      opacity: 0; /* start invisible */
-      box-shadow: 0 0 0 rgba(0,0,0,0); /* no shadow initially */
-      transform: scale(0.8); /* slightly smaller at start */
-      transition: opacity 0.8s ease, box-shadow 0.8s ease, transform 0.8s ease;
-      margin-bottom: 20px;
-    }
+/* Right-side sidenav */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0; 
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  text-align: center;
+}
 
-    .box.show {
-      opacity: 1; /* fade in */
-      box-shadow: 0 15px 25px rgba(0,0,0,0.4); /* shadow appears */
-      transform: scale(1); /* normal size */
-    }
+/* Menu links */
+.sidenav a {
+  padding: 8px 32px 8px 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
 
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      background-color: #3498db;
-      color: white;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
+.sidenav a:hover {
+  color: #f1f1f1;
+}
 
-    button:hover {
-      background-color: #2980b9;
-    }
-  </style>
+/* Hamburger icon */
+.Right-side {
+  font-size: 30px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 5;
+  color: black; /* default color when closed */
+  transition: color 0.3s;
+}
+
+/* Responsive adjustments */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
 </head>
 <body>
 
-  <div class="box"></div>
-  <button onclick="showBox()">Show Box</button>
+<!-- Hamburger icon -->
+<span id="hamburger" class="Right-side" onclick="toggleNav()">&#9776; Open</span>
 
-  <script>
-    function showBox() {
-      const box = document.querySelector('.box');
-      box.classList.add('show'); // triggers the fade-in + shadow animation
-    }
-  </script>
+<!-- Right sidenav -->
+<div id="mySidenav" class="sidenav">
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+
+<script>
+function toggleNav() {
+  const nav = document.getElementById("mySidenav");
+  const hamburger = document.getElementById("hamburger");
+  
+  if (nav.style.width === "15vw") {
+    nav.style.width = "0";
+    hamburger.style.color = "black"; // closed
+  } else {
+    nav.style.width = "15vw";
+    hamburger.style.color = "white"; // opened
+  }
+}
+</script>
 
 </body>
 </html>

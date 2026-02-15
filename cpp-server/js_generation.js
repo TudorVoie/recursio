@@ -17,6 +17,8 @@ const height = container.clientHeight;
 const colWidth = width / cols;
 const lineHeight = height / rows;
 
+let circle_size=colWidth-1;
+
 for (let i = 0; i < rows; i++) {
   const rowDiv = document.createElement("div");
   rowDiv.id = `row-${i}`;
@@ -55,7 +57,7 @@ while (j < cols2 && matrix2[rows2 - 1][j] != 0) {
     let suma;
     const parentCell = document.getElementById(`cell-${rows2 - 1}-${j}`);
     const circle = document.createElement("div");
-    circle.className = "last_circle_div";
+    circle.className = "circle_div";
     circle.id = `circle-${rows2 - 1}-${j}`; // ✅ ID added
     array[rows2 - 1][j] = parentCell.clientWidth / 2;
     circle.style.position = "absolute";
@@ -140,3 +142,6 @@ for (let i = 0; i < rows2; i++)
   for (let j = 0; j < cols2; j++)
     if (matrix2[i][j] == -2) matrice_comparatie[i][j] = 1;
     else matrice_comparatie[i][j] = matrix2[i][j];
+    if(circle_size>80)
+      circle_size=80;
+document.documentElement.style.setProperty('--circle-target', circle_size + 'px');
