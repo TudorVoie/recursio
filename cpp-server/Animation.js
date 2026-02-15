@@ -1,8 +1,3 @@
-// Start the animation after everything is loaded
-window.onload = function () {
-  Animarea_Liniilor();
-};
-
 async function Animarea_Liniilor() {
   let ult_poz_x = drawing_x[0][0];
   let ult_poz_y = drawing_y[0][0];
