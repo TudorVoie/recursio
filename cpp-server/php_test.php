@@ -7,7 +7,6 @@ session_start();
 $output = '';
 $dir = __DIR__ . '/sessions/' . session_id();
 
-// Handle POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $code = $_POST['code'] ?? '';
     $call = $_POST['call'] ?? '';
@@ -15,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['code'] = $code;
     $_SESSION['call'] = $call;
 
-    // Flag to indicate animation should run
+    // sa stimulam animatia sa ruleze dupa submit
     $_SESSION['just_submitted'] = true;
 
     if ($code !== '' && $call !== '') {
@@ -23,28 +22,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         file_put_contents("$dir/user.cpp", $code);
 
-        // Run int.sh
+        // aici facem magia
         $cmd = __DIR__ . "/int.sh " . escapeshellarg($call) . " " . escapeshellarg($dir);
         $output = shell_exec($cmd . ' 2>&1');
         file_put_contents("$dir/temp_test_text.txt", $output);
 
-        // Cut first 2 lines safely
+        // taiem primele 2 linii
         if (file_exists("$dir/temp_test_text.txt")) {
             $lines = file("$dir/temp_test_text.txt");
             file_put_contents("$dir/text_test.txt", implode("", array_slice($lines, 2)));
         }
 
-        // Run a.out
+        // pregatim matricea
         $cmd = __DIR__ . "/a.out " . escapeshellarg($dir);
         shell_exec($cmd . ' 2>&1');
 
-        // Redirect to prevent form resubmission
+        // ruleaza int 2 sa faca apelari.txt si returnari.txt
+        $cmd = __DIR__ . "/int2.sh " . escapeshellarg($dir);
+        $output = shell_exec($cmd . ' 2>&1');
+
+        // redirectionam inapoi ca sa nu se dea refresh la pagina si sa se piarda datele
         header("Location: php_test.php?sid=" . session_id());
         exit;
     }
 }
 
-// Load matrices
+// citim matricea si progresarea
 $matrix = $matrix2 = $progresare = [];
 $rows = $cols = $rows2 = $cols2 = $progresare_cnt = 0;
 
@@ -75,7 +78,7 @@ if (file_exists("$dir/drawing.txt")) {
     $progresare = array_map('intval', $values);
 }
 
-// Clear the just_submitted flag immediately so refresh won't replay animation
+// ca sa nu ruleze animatia la refresh
 $run_animation = !empty($_SESSION['just_submitted']);
 if ($run_animation) unset($_SESSION['just_submitted']);
 ?>
@@ -103,7 +106,7 @@ if ($run_animation) unset($_SESSION['just_submitted']);
 <svg id="svg-lines"></svg>
 
 <script>
-// Pass PHP matrices to JS
+// trimite matricea catre js
 window.APP = {
     matrix: <?= json_encode($matrix) ?>,
     rows: <?= $rows ?>,
@@ -121,7 +124,7 @@ window.APP3 = {
     data: <?= json_encode($progresare) ?>
 };
 
-// Run animation only after Animation.js is loaded and if form was just submitted
+// ruleaza animarea doar daca s-a dat submit, nu la refresh sau prima intrare pe pagina
 <?php if ($run_animation): ?>
 function runAnimationIfReady() {
     if (typeof Animarea_Liniilor === 'function') {
