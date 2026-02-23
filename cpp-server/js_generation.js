@@ -1,6 +1,8 @@
 let { matrix, rows, cols } = window.APP;
 let { matrix2, rows2, cols2 } = window.APP2;
 let { count: progresare_cnt, data: progresare } = window.APP3; // ✅
+const apelari = window.APP_VARS.flat();
+const returnari = window.REVERSED_NUMBERS.flat();
 
 let array = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
 
@@ -70,7 +72,6 @@ while (j < cols2 && matrix2[rows2 - 1][j] != 0) {
 }
 
 Situarea_Punctului();
-
 function Situarea_Punctului() {
   for (let i = rows2 - 2; i >= 0; i--) {
     let j = 0;

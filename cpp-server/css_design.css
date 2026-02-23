@@ -12,11 +12,10 @@
 }
 
 .circle_div {
-  position: absolute;      /* allow free positioning */
-  top: 50%;                /* center vertically */
-  left: 50%;               /* center horizontally */
-  transform: translate(-50%, -50%); /* truly center from middle */
-  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 1px;
   height: 1px;
   border-radius: 50%;
@@ -24,6 +23,8 @@
   opacity: 1;
   transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
   z-index: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .circle_div.show {
@@ -31,6 +32,22 @@
   height: var(--circle-target);
   background-color: #4d3ce7;
 }
+
+/* NEW: numbers inside circles */
+.circle_div .circle_number {
+  font-weight: bold;
+  font-size: var(--circle-target);
+  color: white;
+  text-align: center;
+  justify-content: center;
+  line-height: 1;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 
 
 

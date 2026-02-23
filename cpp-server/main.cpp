@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
         snprintf(tudor, sizeof(tudor), "%s/text_test.txt", argv[1]);
     }
 
-    
+
     FILE *f = fopen(tudor, "r");
     char line[1024];
     char target1[] = "Breakpoint";
