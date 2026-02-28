@@ -9,6 +9,7 @@ let array = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
 let anime = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
 let drawing_x = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
 let drawing_y = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
+let matrice_curbe = Array.from({ length: rows2 }, () => Array(cols2).fill(0));
 let matrice_comparatie = Array.from({ length: rows2 }, () =>
   Array(cols2).fill(0),
 );
@@ -143,6 +144,11 @@ for (let i = 0; i < rows2; i++)
   for (let j = 0; j < cols2; j++)
     if (matrix2[i][j] == -2) matrice_comparatie[i][j] = 1;
     else matrice_comparatie[i][j] = matrix2[i][j];
-    if(circle_size>80)
-      circle_size=80;
+    if(circle_size>60)
+      circle_size=60;
 document.documentElement.style.setProperty('--circle-target', circle_size + 'px');
+document.documentElement.style.setProperty('--circle-target2', circle_size-6 + 'px');
+let triunghi_latime=(15*circle_size)/80;
+let triunghi_larg=(10*circle_size)/80;
+let extraOffset = (8*circle_size)/80;
+let line_width=(6*circle_size)/80;

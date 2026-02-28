@@ -86,15 +86,17 @@ if (file_exists($input_file)) {
 }
 
 // ------------------------------
-// reversed numbers from returnari.txt
+// numbers from returnari.txt in normal order
 $numbers = [];
 $input_file = "$dir/returnari.txt";
+
 if (file_exists($input_file)) {
     $lines = file($input_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $lines = array_reverse($lines);
+
     foreach ($lines as $line) {
         if (preg_match_all('/-?\d+/', $line, $matches)) {
-            $numbers[] = array_map('intval', $matches[0]);
+            // Merge the numbers from this line into the main array
+            $numbers = array_merge($numbers, array_map('intval', $matches[0]));
         }
     }
 }

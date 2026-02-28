@@ -20,23 +20,26 @@
   height: 1px;
   border-radius: 50%;
   background-color: white;
+  border: 2px solid rgb(255, 255, 255); /* 🔹 added border */
   opacity: 1;
-  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border 0.3s ease;
   z-index: 1;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .circle_div.show {
   width: var(--circle-target);
   height: var(--circle-target);
   background-color: #4d3ce7;
+  border: 2px solid rgb(0, 0, 0);
 }
 
 /* NEW: numbers inside circles */
 .circle_div .circle_number {
   font-weight: bold;
-  font-size: var(--circle-target);
+  font-size: var(--circle-target2);
   color: white;
   text-align: center;
   justify-content: center;
@@ -56,8 +59,14 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow: hidden; /* page doesn't scroll */
 }
-
+.viewport {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto; /* scrolling happens here */
+}
 /* ====== Main container ====== */
 .container67 {
   width: 100vw;
@@ -72,8 +81,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 20000px;
+  height: 20000px;
   pointer-events: none;
   z-index: 0;
 }
@@ -181,4 +190,12 @@ body {
 
 #executeButton:active {
   transform: scale(0.97); /* press effect */
+}
+.fade-in {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-in.visible {
+  opacity: 1;
 }
