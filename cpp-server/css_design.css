@@ -60,7 +60,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* page doesn't scroll */
+  overflow: auto; /* page doesn't scroll */
 }
 .viewport {
   width: 100vw;
@@ -81,10 +81,9 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 20000px;
-  height: 20000px;
-  pointer-events: none;
-  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible; /* optional for drawing */
 }
 #svg-lines {
   transform: scale(1);
@@ -118,8 +117,10 @@ body {
   left: 100px;
   padding: 5px; /* space inside box so textareas don't touch edges */
 
-  width: 20vw;
+  width: 15vw;
   min-width: 450px;
+
+  height: auto;
   min-height: 250px;
 
   display: flex;
@@ -198,4 +199,72 @@ body {
 
 .fade-in.visible {
   opacity: 1;
+}
+/* Zoom Controls Container */
+#zoomControls {
+  position: fixed;
+  bottom: 2%;
+  right: 2%;
+  display: flex;
+  flex-direction: column;
+  gap: 1%;
+  z-index: 10000;
+}
+
+/* Zoom Buttons */
+#zoomControls button {
+  width: 4vw;
+  height: 4vw;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 60px;
+  max-height: 60px;
+  font-size: 2vw;
+  border: none;
+  border-radius: 0.5vw;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover Effect */
+#zoomControls button:hover {
+  background-color: #04AA6D; /* change to green on hover */
+  color: white;              /* keep text white */
+  transform: scale(1.1);     /* small pop effect */
+}
+
+/* Optional: page content container */
+#pageContent {
+  width: 100%;
+  height: 100%;
+  transform-origin: top left;
+}
+
+/* Zoom text */
+#zoomText {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  transform: scale(1) !important;
+  transform-origin: top left;
+}
+
+/* Optional Zoom text wrapper */
+.zoom_text_content {
+  padding: 5px;
+  text-align: center;
+}
+#myDropdown {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+.dropdown_container {
+  gap: 5px;
 }

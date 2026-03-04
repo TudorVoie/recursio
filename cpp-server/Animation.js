@@ -230,3 +230,8 @@ let poz_x_curba, poz_y_curba;
     }
   }
 }
+const containerRect = container.getBoundingClientRect();
+const circleRect = circle.getBoundingClientRect();
+
+drawing_x[i][j] = circleRect.left - containerRect.left + circleRect.width / 2;
+drawing_y[i][j] = circleRect.top - containerRect.top + circleRect.height / 2;

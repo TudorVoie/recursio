@@ -21,6 +21,8 @@ const colWidth = width / cols;
 const lineHeight = height / rows;
 
 let circle_size=colWidth-1;
+if(rows>cols)
+  circle_size=lineHeight-1;
 
 for (let i = 0; i < rows; i++) {
   const rowDiv = document.createElement("div");

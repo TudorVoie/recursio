@@ -113,19 +113,49 @@ if ($run_animation) unset($_SESSION['just_submitted']);
 </head>
 
 <body>
-<form method="post" id="myForm">
-    <div id="dragBox">
-        <div id="dragBoxHeader">↔</div>
-        <div class="text_div">
-            <textarea name="code" class="code_input_field" placeholder="Introdu codul"><?= htmlspecialchars($_SESSION['code'] ?? '') ?></textarea>
-            <textarea name="call" class="value_input_field" rows="1" placeholder="Introdu valorile"><?= htmlspecialchars($_SESSION['call'] ?? '') ?></textarea>
-        </div>
-        <button type="submit" id="executeButton">Execută</button>
-    </div>
-</form>
+<!-- Zoom buttons outside body scaling -->
+<div id="zoomControls">
+  <button id="zoomOut">-</button>
+  <button id="zoomIn">+</button>
+  <div class="zoom_text_content" id="zoomBox">100%</div>
+</div>
 
-<div id="container" class="container67"></div>
-<svg id="svg-lines"></svg>
+<!-- Everything else inside the body container -->
+<div id="pageContent">
+  <div id="dragBox">
+        <div id="dragBoxHeader">↔</div>
+
+        <select id="myDropdown" class="dropdown_container">
+            <option value="fibonacci">Fibonacci</option>
+            <option value="factorial">Factorial</option>
+            <option value="knapsack">0-1 Knapsack</option>
+            <option value="coinChange">Coin Change</option>
+            <option value="hanoi">Tower of Hanoi</option>
+            <option value="sumDigits">Sum of Digits</option>
+            <option value="binarySearch">Binary Search</option>
+            <option value="power">Power Function (a^b)</option>
+            <option value="palindrome">Palindrome Check</option>
+            <option value="powerSet">Power Set</option>
+        </select>
+
+        <div class="text_div">
+            <textarea name="code" class="code_input_field" id="textarea1" form="myForm"
+                placeholder="Introdu codul"></textarea>
+            <textarea name="call" class="value_input_field" rows="1" id="textarea2" form="myForm"
+                placeholder="Introdu valorile"></textarea>
+        </div>
+
+        <button type="submit" id="executeButton" form="myForm">Execută</button>
+    </div>
+
+    <form method="post" id="myForm"></form>
+
+  <div class="custom_scroll_wrapper">
+    <div id="container" class="container67">
+      <svg id="svg-lines"></svg>
+    </div>
+  </div>
+</div>
 
 <script>
 window.APP = {
@@ -161,6 +191,7 @@ window.addEventListener('DOMContentLoaded', runAnimationIfReady);
 <script src="js_generation.js"></script>
 <script src="Animation.js"></script>
 <script src="Code_field.js"></script>
+<script src="Dropdown.js"></script>
 
 <?php if ($output !== ''): ?>
 <pre><?= htmlspecialchars($output) ?></pre>
