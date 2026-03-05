@@ -20,9 +20,8 @@ const height = container.clientHeight;
 const colWidth = width / cols;
 const lineHeight = height / rows;
 
-let circle_size=colWidth-1;
-if(rows>cols)
-  circle_size=lineHeight-1;
+let circle_size = colWidth - 1;
+if (rows > cols) circle_size = lineHeight - 1;
 
 for (let i = 0; i < rows; i++) {
   const rowDiv = document.createElement("div");
@@ -146,11 +145,12 @@ for (let i = 0; i < rows2; i++)
   for (let j = 0; j < cols2; j++)
     if (matrix2[i][j] == -2) matrice_comparatie[i][j] = 1;
     else matrice_comparatie[i][j] = matrix2[i][j];
-    if(circle_size>60)
-      circle_size=60;
-document.documentElement.style.setProperty('--circle-target', circle_size + 'px');
-document.documentElement.style.setProperty('--circle-target2', circle_size-6 + 'px');
-let triunghi_latime=(15*circle_size)/80;
-let triunghi_larg=(10*circle_size)/80;
-let extraOffset = (8*circle_size)/80;
-let line_width=(6*circle_size)/80;
+if (circle_size > 60) circle_size = 60;
+document.documentElement.style.setProperty(
+  "--circle-target",
+  circle_size + "px",
+);
+let triunghi_latime = (9 * circle_size) / 60;
+let triunghi_larg = (6 * circle_size) / 60;
+let extraOffset = (10 * circle_size) / 60;
+let line_width = (3 * circle_size) / 60;

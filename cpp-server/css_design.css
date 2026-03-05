@@ -19,41 +19,42 @@
   width: 1px;
   height: 1px;
   border-radius: 50%;
-  background-color: white;
-  border: 2px solid rgb(255, 255, 255); /* 🔹 added border */
-  opacity: 1;
-  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border 0.3s ease;
+  background: linear-gradient(135deg, #0d0a74, #0f219a);
+  border: 4px solid #2e81ca; /* matches gradient start */
+  opacity: 0; /* hidden initially */
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    background 0.3s ease,
+    border 0.3s ease,
+    opacity 0.3s ease;
   z-index: 1;
-  justify-content: center;
-  align-items: center;
   box-sizing: border-box;
+
 }
 
 .circle_div.show {
   width: var(--circle-target);
   height: var(--circle-target);
-  background-color: #4d3ce7;
-  border: 2px solid rgb(0, 0, 0);
+  opacity: 1; /* appears when shown */
 }
-
 /* NEW: numbers inside circles */
 .circle_div .circle_number {
   font-weight: bold;
-  font-size: var(--circle-target2);
-  color: white;
+  color: rgba(255, 255, 255, 0.79);
   text-align: center;
-  justify-content: center;
-  line-height: 1;
   pointer-events: none;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  opacity: 0;             /* hidden initially */
+  transition: opacity 0.3s ease;
 }
 
-
-
-
+.circle_div.show .circle_number {
+  opacity: 1;             /* visible when circle shows */
+}
 /* ====== Page base ====== */
 html,
 body {
@@ -67,14 +68,17 @@ body {
   height: 100vh;
   overflow: auto; /* scrolling happens here */
 }
-/* ====== Main container ====== */
+
+/* ====== Main container with animated dark gradient ====== */
 .container67 {
   width: 100vw;
   height: 100vh;
   position: relative;
   z-index: 1;
-}
 
+  /* Animated dark gradient */
+  background: linear-gradient(120deg, #000000, #0a0a0a); /* almost black */
+}
 
 /* ====== SVG lines layer ====== */
 #svg-lines {
@@ -89,8 +93,6 @@ body {
   transform: scale(1);
   transform-origin: top left;
 }
-
-
 
 /* ====== Fade-in div ====== */
 #myDiv {
@@ -111,17 +113,17 @@ body {
   position: absolute;
   text-align: center;
   z-index: 9;
-  background-color: #9f9f9f;
-  border: 1px solid #d3d3d3;
+  background-color: #d1d1d1be;
+  border: 5px solid #1c1b1b90;
   top: 100px;
   left: 100px;
   padding: 5px; /* space inside box so textareas don't touch edges */
 
-  width: 15vw;
-  min-width: 450px;
+  width: 20vw;
+  min-width: 465px;
 
   height: auto;
-  min-height: 250px;
+  min-height: 293px;
 
   display: flex;
   flex-direction: column;
@@ -132,11 +134,14 @@ body {
 }
 
 #dragBoxHeader {
-  padding: 10px;
+  padding: 8px;
   cursor: move;
-  background-color: #bbf321;
-  color: #fff;
+  background-color: #1063ab;
+  color: white;
+  font-size: 100%;
   flex: 0 0 auto; /* fixed header */
+  border: #000000 solid 2px;
+  box-sizing: border-box;
 }
 
 /* container for the textareas */
@@ -156,6 +161,9 @@ body {
   padding: 2.5px; /* inner padding so text doesn’t touch edges */
   box-sizing: border-box;
   min-height: 0; /* allows flex to shrink properly */
+  background-color: rgb(21, 21, 22);
+  color: white;
+  border: #000000 solid 2px
 }
 
 /* BOTTOM textarea */
@@ -166,11 +174,14 @@ body {
   padding: 5px;
   box-sizing: border-box;
   min-height: 0;
+  background-color: rgb(21, 21, 22);
+  color: white;
+  border: #000000 solid 2px
 }
 #executeButton {
   width: 100%; /* spans full width of the box */
   padding: 2px 0; /* very small vertical padding */
-  background-color: #21f336; /* match header */
+  background-color: #1318b3; /* match header */
   color: #fff;
   border: none;
   border-radius: 3px; /* slightly rounded */
@@ -182,11 +193,12 @@ body {
     background-color 0.2s,
     transform 0.1s;
   box-sizing: border-box; /* ensure padding doesn’t overflow */
-  margin-top: 5px; /* small space from textareas */
+  margin-top: 2px; /* small space from textareas */
+  border: #000000 solid 2px;
 }
 
 #executeButton:hover {
-  background-color: #1acc2e; /* hover effect */
+  background-color: #0d0987; /* hover effect */
 }
 
 #executeButton:active {
@@ -225,14 +237,17 @@ body {
   background-color: #333;
   color: white;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease;
 }
 
 /* Hover Effect */
 #zoomControls button:hover {
-  background-color: #04AA6D; /* change to green on hover */
-  color: white;              /* keep text white */
-  transform: scale(1.1);     /* small pop effect */
+  background-color: #04aa6d; /* change to green on hover */
+  color: white; /* keep text white */
+  transform: scale(1.1); /* small pop effect */
 }
 
 /* Optional: page content container */
@@ -255,16 +270,21 @@ body {
 .zoom_text_content {
   padding: 5px;
   text-align: center;
+  color: white;
 }
 #myDropdown {
   width: 100%;
-  padding: 5px;
+  padding: 3px;
   margin-bottom: 5px;
   box-sizing: border-box;
   font-size: 14px;
   border-radius: 3px;
   border: 1px solid #ccc;
+  border: #000000 solid 2px;
+  margin-top: 2px;
 }
 .dropdown_container {
   gap: 5px;
+  background-color: rgb(38, 38, 40);
+  color:white;
 }
