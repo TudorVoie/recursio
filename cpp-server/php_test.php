@@ -38,12 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($tip == "void") {
             $cmd = __DIR__ . "/void.sh " . escapeshellarg($call) . " " . escapeshellarg($dir);
             $output = shell_exec($cmd . ' 2>&1');
-            file_put_contents("$dir/temp_test_text.txt", $output);
+            /*file_put_contents("$dir/temp_test_text.txt", $output);
 
             if (file_exists("$dir/temp_test_text.txt")) {
                 $lines = file("$dir/temp_test_text.txt");
                 file_put_contents("$dir/text_test.txt", implode("", array_slice($lines, 2)));
-            }
+            }*/
+            file_put_contents("$dir/text_test.txt", $output);
 
             $cmd = __DIR__ . "/a.out " . escapeshellarg($dir);
             shell_exec($cmd . ' 2>&1');
@@ -53,12 +54,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $cmd = __DIR__ . "/int.sh " . escapeshellarg($call) . " " . escapeshellarg($dir);
             $output = shell_exec($cmd . ' 2>&1');
-            file_put_contents("$dir/temp_test_text.txt", $output);
+            /*file_put_contents("$dir/temp_test_text.txt", $output);
 
             if (file_exists("$dir/temp_test_text.txt")) {
                 $lines = file("$dir/temp_test_text.txt");
                 file_put_contents("$dir/text_test.txt", implode("", array_slice($lines, 2)));
-            }
+            } */
+            file_put_contents("$dir/text_test.txt", $output);
+
 
             $cmd = __DIR__ . "/a.out " . escapeshellarg($dir);
             shell_exec($cmd . ' 2>&1');
