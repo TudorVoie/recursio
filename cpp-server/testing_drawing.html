@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -180,3 +181,31 @@ document.addEventListener('mouseup', () => isVDragging=false);
 
 </body>
 </html>
+=======
+<form id="myForm">
+  <input type="text" name="username" value="Alice" />
+  <button type="submit">Send</button>
+</form>
+
+<script>
+  const form = document.getElementById("myForm");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // stop refresh
+
+    const formData = new FormData(form);
+
+    fetch("server.php", {
+      // replace with your backend endpoint
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.text())
+      .then((data) => {
+        console.log("Server response:", data);
+        // You can also update the page dynamically here
+      })
+      .catch((err) => console.error(err));
+  });
+</script>
+>>>>>>> Stashed changes

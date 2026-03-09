@@ -2,35 +2,52 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // ---------- DRAGBOX ----------
   const dragBox = document.getElementById("dragBox");
-  const header = document.getElementById("dragBoxHeader");
-  let offsetX = 0, offsetY = 0, startX = 0, startY = 0;
+// const header = document.getElementById("dragBoxHeader"); // optional now
+let offsetX = 0, offsetY = 0, startX = 0, startY = 0;
 
-  dragBox.style.position = 'fixed';
-  dragBox.style.top = '100px';
-  dragBox.style.left = '100px';
+dragBox.style.position = 'fixed';
+dragBox.style.top = '100px';
+dragBox.style.left = '100px';
 
-  const target = header || dragBox;
-  target.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    startX = e.clientX;
-    startY = e.clientY;
-    offsetX = parseFloat(dragBox.style.left);
-    offsetY = parseFloat(dragBox.style.top);
-    document.onmousemove = dragMove;
-    document.onmouseup = dragEnd;
-  });
+const target = dragBox; // make the entire box draggable
+target.addEventListener('mousedown', (e) => {
+  const rect = dragBox.getBoundingClientRect();
+  const cornerSize = 15; // bottom-right corner reserved for resize
 
-  function dragMove(e) {
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    dragBox.style.left = offsetX + dx + "px";
-    dragBox.style.top = offsetY + dy + "px";
+  // check if click is inside bottom-right corner
+  const onResizeCorner =
+    e.clientX >= rect.right - cornerSize &&
+    e.clientY >= rect.bottom - cornerSize;
+
+  // ignore interactive elements (textarea, input, button, select)
+  const tag = e.target.tagName.toLowerCase();
+  const interactive = ['input', 'textarea', 'select', 'button'].includes(tag);
+
+  if (onResizeCorner || interactive) {
+    return; // let browser handle resize or text input
   }
 
-  function dragEnd() {
-    document.onmousemove = null;
-    document.onmouseup = null;
-  }
+  // otherwise, handle drag
+  e.preventDefault();
+  startX = e.clientX;
+  startY = e.clientY;
+  offsetX = parseFloat(dragBox.style.left);
+  offsetY = parseFloat(dragBox.style.top);
+  document.onmousemove = dragMove;
+  document.onmouseup = dragEnd;
+});
+
+function dragMove(e) {
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+  dragBox.style.left = offsetX + dx + "px";
+  dragBox.style.top = offsetY + dy + "px";
+}
+
+function dragEnd() {
+  document.onmousemove = null;
+  document.onmouseup = null;
+}
 
   // ---------- PAGE ZOOM ----------
   const pageContent = document.getElementById("pageContent");
@@ -74,3 +91,27 @@ window.addEventListener('DOMContentLoaded', () => {
   updateZoom();
 
 });
+// Toggle dragBox visibility
+const toggleBtn = document.getElementById("toggleDragBox");
+const dragBox = document.getElementById("dragBox");
+
+toggleBtn.addEventListener("click", () => {
+  if (dragBox.style.display === "none") {
+    // Show dragBox
+    dragBox.style.display = "flex";   // keeps flex layout
+    toggleBtn.textContent = "Hide Code";
+  } else {
+    // Hide dragBox
+    dragBox.style.display = "none";
+    toggleBtn.textContent = "Show Code";
+  }
+});
+function toggleNav() {
+    const nav = document.getElementById("mySidenav");
+
+    if (nav.style.width === "15vw") {
+        nav.style.width = "0";
+    } else {
+        nav.style.width = "15vw";
+    }
+}

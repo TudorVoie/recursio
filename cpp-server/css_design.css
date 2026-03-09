@@ -20,7 +20,7 @@
   height: 1px;
   border-radius: 50%;
   background: linear-gradient(135deg, #0d0a74, #0f219a);
-  border: 4px solid #2e81ca; /* matches gradient start */
+  border: var(--circle-bordare) solid #2e81ca; /* matches gradient start */
   opacity: 0; /* hidden initially */
   transition:
     width 0.3s ease,
@@ -72,7 +72,7 @@ body {
 /* ====== Main container with animated dark gradient ====== */
 .container67 {
   width: 100vw;
-  height: 100vh;
+  height: 93vh;
   position: relative;
   z-index: 1;
 
@@ -113,17 +113,17 @@ body {
   position: absolute;
   text-align: center;
   z-index: 9;
-  background-color: #d1d1d1be;
-  border: 5px solid #1c1b1b90;
+  background-color: #959595;
+  border: 5px solid #454444;
   top: 100px;
   left: 100px;
   padding: 5px; /* space inside box so textareas don't touch edges */
 
   width: 20vw;
-  min-width: 465px;
+  min-width: 450px;
 
   height: auto;
-  min-height: 293px;
+  min-height: 250px;
 
   display: flex;
   flex-direction: column;
@@ -131,6 +131,7 @@ body {
   resize: both;
   overflow: hidden; /* allow flex children to control sizing */
   box-sizing: border-box;
+  
 }
 
 #dragBoxHeader {
@@ -181,7 +182,7 @@ body {
 #executeButton {
   width: 100%; /* spans full width of the box */
   padding: 2px 0; /* very small vertical padding */
-  background-color: #1318b3; /* match header */
+  background-color: #7b0fb1; /* match header */
   color: #fff;
   border: none;
   border-radius: 3px; /* slightly rounded */
@@ -198,7 +199,7 @@ body {
 }
 
 #executeButton:hover {
-  background-color: #0d0987; /* hover effect */
+  background-color: #5b0a83; /* hover effect */
 }
 
 #executeButton:active {
@@ -287,4 +288,133 @@ body {
   gap: 5px;
   background-color: rgb(38, 38, 40);
   color:white;
+}
+.navbar_top {
+  width: 100%;
+  height: 7vh;
+  background: #000000;
+  background: linear-gradient(126deg, rgba(0, 0, 0, 1) 0%, rgb(69, 14, 136) 74%, rgb(42, 13, 145) 100%);
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 4px 5px rgba(23, 0, 140, 0.667);
+
+  display: flex;
+  align-items: center; /* ADD THIS */
+}
+/* scrollbar width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* scrollbar track */
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+/* scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 6px;
+}
+
+/* hover effect */
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+::-webkit-scrollbar-corner {
+  background: #0a0a0a;
+}
+.show_unshow {
+  position: absolute;       /* stick to viewport */
+  top: 11%;
+  right: 7vw;
+  height: 80%;
+  width: 6%;
+  background-color: #7b0fb1;
+  color: white;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+
+  /* Shadow */
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+  transition: all 0.2s ease; /* smooth hover transition */
+}
+
+/* Hover effect */
+.show_unshow:hover {
+  background-color: #9c1fd5;      /* brighter purple on hover */
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.6);
+  transform: translateY(-2px);    /* slight lift effect */
+}
+/* Hamburger container */
+/* Side navigation */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 0; /* RIGHT SIDE instead of left */
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  text-align: center;
+}
+
+/* Menu links */
+.sidenav a {
+  padding: 8px 32px 8px 8px; /* reversed padding */
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  text-align: center;
+  transition: 0.3s;
+  z-index: 21000;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Close button */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  left: 25px; /* moved to the left */
+  font-size: 36px;
+}
+
+/* Mobile adjustment */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+/* Hamburger button */
+.hamburger {
+  position: absolute;
+  right: 2.5vw;
+  width: 2.4%;
+  height: 46%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 2100; /* above sidenav and navbar */
+  align-items: center; /* vertical center */
+}
+
+.hamburger span {
+  display: block;
+  height: 4px;
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.hamburger:hover span {
+  background-color: rgb(7, 7, 7);
 }

@@ -6,8 +6,8 @@
 
 using namespace std;
 
-int a[101][101], a2[101][101],anime[101][101],matrice_comparatie[101][101];
-int verifica[200], progresare[1000];
+int a[201][201], a2[201][201],anime[201][201],matrice_comparatie[201][201];
+int verifica[400], progresare[2000];
 
 int main(int argc, char* argv[])
 {

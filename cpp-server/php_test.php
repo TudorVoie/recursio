@@ -1,4 +1,3 @@
-ex
 <!DOCTYPE html>
 <html lang="en">
 
@@ -184,11 +183,33 @@ if ($run_animation)
 
         <form method="post" id="myForm"></form>
 
-        <div class="custom_scroll_wrapper">
-            <div id="container" class="container67">
-                <svg id="svg-lines"></svg>
+        <div class="navbar_top">
+
+            <button class="show_unshow" id="toggleDragBox">Hide Code</button>
+
+            <div class="hamburger" id="hamburgerMenu" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
+
         </div>
+
+        <!-- Right Slide Menu -->
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+        </div>
+
+        <div class="custom_scroll_wrapper">
+        </div>
+        <div id="container" class="container67">
+            <svg id="svg-lines"></svg>
+        </div>
+    </div>
     </div>
 
     <script>

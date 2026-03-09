@@ -14,8 +14,7 @@ let matrice_comparatie = Array.from({ length: rows2 }, () =>
   Array(cols2).fill(0),
 );
 const container = document.getElementById("container");
-const width = container.clientWidth;
-const height = container.clientHeight;
+const { width, height } = container.getBoundingClientRect();
 
 const colWidth = width / cols;
 const lineHeight = height / rows;
@@ -145,12 +144,17 @@ for (let i = 0; i < rows2; i++)
   for (let j = 0; j < cols2; j++)
     if (matrix2[i][j] == -2) matrice_comparatie[i][j] = 1;
     else matrice_comparatie[i][j] = matrix2[i][j];
-if (circle_size > 60) circle_size = 60;
+if (circle_size > 50) circle_size = 50;
 document.documentElement.style.setProperty(
   "--circle-target",
   circle_size + "px",
 );
-let triunghi_latime = (9 * circle_size) / 60;
-let triunghi_larg = (6 * circle_size) / 60;
-let extraOffset = (10 * circle_size) / 60;
-let line_width = (3 * circle_size) / 60;
+let triunghi_latime = (9 * circle_size) / 50;
+let triunghi_larg = (6 * circle_size) / 50;
+let extraOffset = (10 * circle_size) / 50;
+let line_width = (3 * circle_size) / 50;
+let bordare = (4 * circle_size) / 50;
+document.documentElement.style.setProperty(
+  "--circle-bordare",
+  bordare + "px",
+);
