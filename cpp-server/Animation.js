@@ -37,11 +37,21 @@ async function show(i, j) {
 /* 🔧 Animate line inside SVG (forward) */
 function animateLineWithEvent(ult_poz_x, ult_poz_y, poz_x, poz_y) {
   return new Promise((resolve) => {
+<<<<<<< Updated upstream
     const line = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "polyline"
     );
     const pointsString = `${ult_poz_x},${ult_poz_y} ${poz_x},${poz_y}`;
+=======
+    const xs = [ult_poz_x, poz_x];
+    const ys = [ult_poz_y, poz_y];
+    const line = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "polyline",
+    );
+    const pointsString = xs.map((x, i) => `${x},${ys[i]}`).join(" ");
+>>>>>>> Stashed changes
     line.setAttribute("points", pointsString);
     line.setAttribute("fill", "none");
     line.setAttribute("stroke", "#ffffffce"); // neon purple
@@ -71,8 +81,14 @@ async function animateArrow(
   value,
   fontSize,
   fadeDuration = 1000,
+<<<<<<< Updated upstream
   holdDuration = 300
 ) {
+=======
+  holdDuration = 300,
+) {
+  // 🔹 restored parameter with default
+>>>>>>> Stashed changes
   const svg = document.getElementById("svg-lines");
 
   // Midpoint of the line
@@ -103,7 +119,11 @@ async function animateArrow(
   // Create triangle
   const triangle = document.createElementNS(
     "http://www.w3.org/2000/svg",
+<<<<<<< Updated upstream
     "polygon"
+=======
+    "polygon",
+>>>>>>> Stashed changes
   );
   triangle.setAttribute("points", points);
 triangle.setAttribute("stroke", "#1f99db");
@@ -123,11 +143,19 @@ triangle.setAttribute("stroke", "#1f99db");
   if (value !== null) {
     const label = document.createElementNS(
       "http://www.w3.org/2000/svg",
+<<<<<<< Updated upstream
       "text"
     );
     label.textContent = value.toString();
     label.setAttribute("font-size", fontSize);
     label.setAttribute("fill", "#d800d8");
+=======
+      "text",
+    );
+    label.textContent = value.toString();
+    label.setAttribute("font-size", fontSize); // 🔹 use the parameter
+    label.setAttribute("fill", "#A0522D");
+>>>>>>> Stashed changes
     label.setAttribute("dominant-baseline", "middle");
 
     const isRight = Math.cos(angle) > 0;
@@ -151,7 +179,11 @@ triangle.setAttribute("stroke", "#1f99db");
   }
 
   await new Promise((resolve) =>
+<<<<<<< Updated upstream
     setTimeout(resolve, fadeDuration + holdDuration)
+=======
+    setTimeout(resolve, fadeDuration + holdDuration),
+>>>>>>> Stashed changes
   );
 }
 
@@ -169,7 +201,10 @@ async function Animarea_Liniilor() {
   let ultima_valoare = 0;
   let poz_ultima_curba_x, poz_ultima_curba_y;
   let poz_x_curba, poz_y_curba;
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
   // Show first circle
   await show(0, 0);
   await new Promise((resolve) => setTimeout(resolve, 50));
@@ -251,7 +286,11 @@ async function Animarea_Liniilor() {
         poz_x_curba,
         poz_y_curba,
         returnari[contor],
+<<<<<<< Updated upstream
         circle_size / 2
+=======
+        circle_size / 2,
+>>>>>>> Stashed changes
       );
       contor++;
       poz_ultima_curba_x = poz_x_curba;

@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($code !== '' && $call !== '') {
         if (!is_dir($dir))
             mkdir($dir, 0700, true);
+<<<<<<< Updated upstream
         else {
             // șterge fișierele vechi din sesiune
             $files = glob("$dir/*");
@@ -29,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         }
+=======
+>>>>>>> Stashed changes
 
         file_put_contents("$dir/user.cpp", $code);
 
@@ -146,6 +149,7 @@ if ($run_animation)
 </head>
 
 <body>
+<<<<<<< Updated upstream
     <!-- Zoom buttons outside body scaling -->
     <div id="zoomControls">
         <button id="zoomOut">-</button>
@@ -250,6 +254,78 @@ if ($run_animation)
 
     <?php if ($output !== ''): ?>
         <pre><?= htmlspecialchars($output) ?></pre>
+=======
+
+    <div id="dragBox">
+        <div id="dragBoxHeader">↔</div>
+
+        <select id="myDropdown" class="dropdown_container">
+            <option value="fibonacci">Fibonacci</option>
+            <option value="factorial">Factorial</option>
+            <option value="knapsack">0-1 Knapsack</option>
+            <option value="coinChange">Coin Change</option>
+            <option value="hanoi">Tower of Hanoi</option>
+            <option value="sumDigits">Sum of Digits</option>
+            <option value="binarySearch">Binary Search</option>
+            <option value="power">Power Function (a^b)</option>
+            <option value="palindrome">Palindrome Check</option>
+            <option value="powerSet">Power Set</option>
+        </select>
+
+        <div class="text_div">
+            <textarea name="code" class="code_input_field" id="textarea1" form="myForm"
+                placeholder="Introdu codul"><?= htmlspecialchars($_SESSION['code'] ?? '') ?></textarea>
+            <textarea name="call" class="value_input_field" rows="1" id="textarea2" form="myForm"
+                placeholder="Introdu valorile"><?= htmlspecialchars($_SESSION['call'] ?? '') ?></textarea>
+        </div>
+
+        <button type="submit" id="executeButton" form="myForm">Execută</button>
+    </div>
+
+    <form method="post" id="myForm"></form>
+
+    <div id="container" class="container67"></div>
+    <svg id="svg-lines"></svg>
+
+    <script>
+        window.APP = {
+            matrix: <?= json_encode($matrix) ?>,
+            rows: <?= $rows ?>,
+            cols: <?= $cols ?>
+        };
+        window.APP2 = {
+            matrix2: <?= json_encode($matrix2) ?>,
+            rows2: <?= $rows2 ?>,
+            cols2: <?= $cols2 ?>
+        };
+        window.APP3 = {
+            count: <?= $progresare_cnt ?>,
+            data: <?= json_encode($progresare) ?>
+        };
+        window.APP_VARS = <?= json_encode($vars) ?>;
+        window.REVERSED_NUMBERS = <?= json_encode($numbers) ?>;
+
+        // run animation after submit
+        <?php if ($run_animation): ?>
+            function runAnimationIfReady() {
+                if (typeof Animarea_Liniilor === 'function') {
+                    Animarea_Liniilor();
+                } else {
+                    setTimeout(runAnimationIfReady, 100);
+                }
+            }
+            window.addEventListener('DOMContentLoaded', runAnimationIfReady);
+        <?php endif; ?>
+    </script>
+
+    <script src="js_generation.js"></script>
+    <script src=" Animation.js"></script>
+    <script src="Code_field.js"></script>
+    <script src="Dropdown.js"></script>
+    <?php if ($output !== ''): ?>
+        <pre><?= htmlspecialchars($output) ?>
+                                                                        </pre>
+>>>>>>> Stashed changes
     <?php endif; ?>
     <?php exit ?>
 </body>

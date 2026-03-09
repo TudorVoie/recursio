@@ -19,6 +19,7 @@
   width: 1px;
   height: 1px;
   border-radius: 50%;
+<<<<<<< Updated upstream
   background: linear-gradient(135deg, #0d0a74, #0f219a);
   border: var(--circle-bordare) solid #2e81ca; /* matches gradient start */
   opacity: 0; /* hidden initially */
@@ -28,6 +29,16 @@
     background 0.3s ease,
     border 0.3s ease,
     opacity 0.3s ease;
+=======
+  background-color: white;
+  border: 2px solid rgb(255, 255, 255); /* 🔹 added border */
+  opacity: 1;
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    background-color 0.3s ease,
+    border 0.3s ease;
+>>>>>>> Stashed changes
   z-index: 1;
   box-sizing: border-box;
 
@@ -52,9 +63,12 @@
   transition: opacity 0.3s ease;
 }
 
+<<<<<<< Updated upstream
 .circle_div.show .circle_number {
   opacity: 1;             /* visible when circle shows */
 }
+=======
+>>>>>>> Stashed changes
 /* ====== Page base ====== */
 html,
 body {
@@ -76,10 +90,13 @@ body {
   position: relative;
   z-index: 1;
 
+<<<<<<< Updated upstream
   /* Animated dark gradient */
   background: linear-gradient(120deg, #000000, #0a0a0a); /* almost black */
 }
 
+=======
+>>>>>>> Stashed changes
 /* ====== SVG lines layer ====== */
 #svg-lines {
   position: absolute;
@@ -213,6 +230,7 @@ body {
 .fade-in.visible {
   opacity: 1;
 }
+<<<<<<< Updated upstream
 /* Zoom Controls Container */
 #zoomControls {
   position: fixed;
@@ -276,11 +294,17 @@ body {
 #myDropdown {
   width: 100%;
   padding: 3px;
+=======
+#myDropdown {
+  width: 100%;
+  padding: 5px;
+>>>>>>> Stashed changes
   margin-bottom: 5px;
   box-sizing: border-box;
   font-size: 14px;
   border-radius: 3px;
   border: 1px solid #ccc;
+<<<<<<< Updated upstream
   border: #000000 solid 2px;
   margin-top: 2px;
 }
@@ -418,3 +442,9 @@ body {
 .hamburger:hover span {
   background-color: rgb(7, 7, 7);
 }
+=======
+}
+.dropdown_container {
+  gap: 5px;
+}
+>>>>>>> Stashed changes

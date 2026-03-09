@@ -1,9 +1,12 @@
 const dropdown = document.getElementById("myDropdown");
 
+<<<<<<< Updated upstream
 document.addEventListener("DOMContentLoaded", function () {
   fibonacci(); // default function when page loads
 });
 
+=======
+>>>>>>> Stashed changes
 // Dropdown change handler
 dropdown.addEventListener("change", function () {
   const value = this.value;
