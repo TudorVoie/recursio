@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mkdir($dir, 0700, true);
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         else {
             // șterge fișierele vechi din sesiune
             $files = glob("$dir/*");
@@ -31,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         }
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -154,6 +157,7 @@ if ($run_animation)
 <body>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <!-- Zoom buttons outside body scaling -->
     <div id="zoomControls">
         <button id="zoomOut">-</button>
@@ -261,6 +265,8 @@ if ($run_animation)
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
     <div id="dragBox">
         <div id="dragBoxHeader">↔</div>
@@ -332,6 +338,9 @@ if ($run_animation)
         <pre><?= htmlspecialchars($output) ?>
                                                                         </pre>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
