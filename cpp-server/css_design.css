@@ -38,6 +38,9 @@
     height 0.3s ease,
     background-color 0.3s ease,
     border 0.3s ease;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   z-index: 1;
   box-sizing: border-box;
@@ -64,9 +67,12 @@
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 .circle_div.show .circle_number {
   opacity: 1;             /* visible when circle shows */
 }
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 /* ====== Page base ====== */
@@ -95,6 +101,9 @@ body {
   background: linear-gradient(120deg, #000000, #0a0a0a); /* almost black */
 }
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 /* ====== SVG lines layer ====== */
@@ -231,6 +240,7 @@ body {
   opacity: 1;
 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* Zoom Controls Container */
 #zoomControls {
   position: fixed;
@@ -299,11 +309,17 @@ body {
   width: 100%;
   padding: 5px;
 >>>>>>> Stashed changes
+=======
+#myDropdown {
+  width: 100%;
+  padding: 5px;
+>>>>>>> Stashed changes
   margin-bottom: 5px;
   box-sizing: border-box;
   font-size: 14px;
   border-radius: 3px;
   border: 1px solid #ccc;
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   border: #000000 solid 2px;
   margin-top: 2px;
@@ -443,8 +459,13 @@ body {
   background-color: rgb(7, 7, 7);
 }
 =======
+=======
+>>>>>>> Stashed changes
 }
 .dropdown_container {
   gap: 5px;
 }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

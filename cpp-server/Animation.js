@@ -38,12 +38,15 @@ async function show(i, j) {
 function animateLineWithEvent(ult_poz_x, ult_poz_y, poz_x, poz_y) {
   return new Promise((resolve) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     const line = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "polyline"
     );
     const pointsString = `${ult_poz_x},${ult_poz_y} ${poz_x},${poz_y}`;
 =======
+=======
+>>>>>>> Stashed changes
     const xs = [ult_poz_x, poz_x];
     const ys = [ult_poz_y, poz_y];
     const line = document.createElementNS(
@@ -82,8 +85,14 @@ async function animateArrow(
   fontSize,
   fadeDuration = 1000,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   holdDuration = 300
 ) {
+=======
+  holdDuration = 300,
+) {
+  // 🔹 restored parameter with default
+>>>>>>> Stashed changes
 =======
   holdDuration = 300,
 ) {
@@ -120,7 +129,11 @@ async function animateArrow(
   const triangle = document.createElementNS(
     "http://www.w3.org/2000/svg",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "polygon"
+=======
+    "polygon",
+>>>>>>> Stashed changes
 =======
     "polygon",
 >>>>>>> Stashed changes
@@ -144,6 +157,7 @@ triangle.setAttribute("stroke", "#1f99db");
     const label = document.createElementNS(
       "http://www.w3.org/2000/svg",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       "text"
     );
     label.textContent = value.toString();
@@ -153,6 +167,11 @@ triangle.setAttribute("stroke", "#1f99db");
       "text",
     );
     label.textContent = value.toString();
+=======
+      "text",
+    );
+    label.textContent = value.toString();
+>>>>>>> Stashed changes
     label.setAttribute("font-size", fontSize); // 🔹 use the parameter
     label.setAttribute("fill", "#A0522D");
 >>>>>>> Stashed changes
@@ -180,7 +199,11 @@ triangle.setAttribute("stroke", "#1f99db");
 
   await new Promise((resolve) =>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     setTimeout(resolve, fadeDuration + holdDuration)
+=======
+    setTimeout(resolve, fadeDuration + holdDuration),
+>>>>>>> Stashed changes
 =======
     setTimeout(resolve, fadeDuration + holdDuration),
 >>>>>>> Stashed changes
@@ -202,7 +225,10 @@ async function Animarea_Liniilor() {
   let poz_ultima_curba_x, poz_ultima_curba_y;
   let poz_x_curba, poz_y_curba;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   // Show first circle
@@ -287,7 +313,11 @@ async function Animarea_Liniilor() {
         poz_y_curba,
         returnari[contor],
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         circle_size / 2
+=======
+        circle_size / 2,
+>>>>>>> Stashed changes
 =======
         circle_size / 2,
 >>>>>>> Stashed changes
