@@ -1,8 +1,0 @@
-*.exe
-*.o
-*.out
-gdb.txt
-input.cpp
-.vscode/settings.json
-user.cpp
-/cpp-server/sessions
