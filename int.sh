@@ -1,0 +1,1 @@
+ sudo docker run --rm   --network none   --memory=256m   --cpus=1   --pids-limit=64   --tmpfs /tmp:exec,mode=1777   --cap-drop ALL   --security-opt no-new-privileges   -v $(pwd):/app   -w /app/scripts   cpp-debugger   bash int.sh "$1" "$2"

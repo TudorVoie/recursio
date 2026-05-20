@@ -1,0 +1,311 @@
+/* ====== Cells ====== */
+.cell {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.whitecell {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+
+.circle_div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0d0a74, #0f219a);
+  border: var(--circle-bordare) solid #2e81ca; /* matches gradient start */
+  opacity: 0; /* hidden initially */
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    background 0.3s ease,
+    border 0.3s ease,
+    opacity 0.3s ease;
+  z-index: 1;
+  box-sizing: border-box;
+
+}
+
+.circle_div.show {
+  width: var(--circle-target);
+  height: var(--circle-target);
+  opacity: 1; /* appears when shown */
+}
+/* NEW: numbers inside circles */
+.circle_div .circle_number {
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.79);
+  text-align: center;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;             /* hidden initially */
+  transition: opacity 0.3s ease;
+  white-space: pre-line;
+  
+}
+
+.circle_div.show .circle_number {
+  opacity: 1;             /* visible when circle shows */
+}
+/* ====== Page base ====== */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: auto; /* page doesn't scroll */
+ background: linear-gradient(120deg, #000000, #0a0a0a); /* almost black */
+}
+.viewport {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto; /* scrolling happens here */
+}
+
+/* ====== Main container with animated dark gradient ====== */
+.container67 {
+  width: 100vw;
+  height: 93vh;
+  position: relative;
+  z-index: 1;
+
+  /* Animated dark gradient */
+  background: linear-gradient(120deg, #000000, #0a0a0a); /* almost black */
+}
+
+/* ====== SVG lines layer ====== */
+#svg-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible; /* optional for drawing */
+}
+#svg-lines {
+  transform: scale(1);
+  transform-origin: top left;
+}
+
+/* ====== Fade-in div ====== */
+#myDiv {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  position: relative;
+  z-index: 10;
+}
+
+#myDiv.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+#dragBox {
+  position: absolute;
+  text-align: center;
+  z-index: 9;
+  background-color: #959595;
+  border: 5px solid #454444;
+  top: 100px;
+  left: 100px;
+  padding: 5px; /* space inside box so textareas don't touch edges */
+
+  width: 20vw;
+  min-width: 450px;
+
+  height: auto;
+  min-height: 250px;
+
+  display: flex;
+  flex-direction: column;
+
+  resize: both;
+  overflow: hidden; /* allow flex children to control sizing */
+  box-sizing: border-box;
+  
+}
+
+#dragBoxHeader {
+  padding: 8px;
+  cursor: move;
+  background-color: #1063ab;
+  color: white;
+  font-size: 100%;
+  flex: 0 0 auto; /* fixed header */
+  border: #000000 solid 2px;
+  box-sizing: border-box;
+}
+
+/* container for the textareas */
+.text_div {
+  display: flex;
+  flex-direction: column;
+  flex: 1 ; /* fills remaining space under header */
+  gap: 2.5px; /* space between textareas */
+  min-height: 0; /* critical for shrinking in flexbox */
+}
+
+/* TOP textarea */
+.code_input_field {
+  flex: 6 1 0; /* 90% of .text_div height */
+  width: 100%;
+  resize: none;
+  padding: 1px; /* inner padding so text doesn’t touch edges */
+  box-sizing: border-box;
+  min-height: 0; /* allows flex to shrink properly */
+  background-color: rgb(21, 21, 22);
+  color: white;
+  border: #000000 solid 2px
+}
+.supValue_input_field {
+  flex: 2.5 1 0; /* 90% of .text_div height */
+  width: 100%;
+  resize: none;
+  padding: 1px; /* inner padding so text doesn’t touch edges */
+  box-sizing: border-box;
+  min-height: 0; /* allows flex to shrink properly */
+  background-color: rgb(21, 21, 22);
+  color: white;
+  border: #000000 solid 2px
+}
+
+/* BOTTOM textarea */
+.value_input_field {
+  flex: 1.5 1 0; /* 10% of .text_div height */
+  width: 100%;
+  resize: none;
+  padding: 1px;
+  box-sizing: border-box;
+  min-height: 0;
+  background-color: rgb(21, 21, 22);
+  color: white;
+  border: #000000 solid 2px
+}
+#executeButton {
+  width: 100%; /* spans full width of the box */
+  padding: 2px 0; /* very small vertical padding */
+  background-color: #7b0fb1; /* match header */
+  color: #fff;
+  border: none;
+  border-radius: 3px; /* slightly rounded */
+  cursor: pointer;
+  font-size: 14px; /* smaller font */
+  font-weight: bold;
+  text-align: center;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+  box-sizing: border-box; /* ensure padding doesn’t overflow */
+  margin-top: 2px; /* small space from textareas */
+  border: #000000 solid 2px;
+}
+
+#executeButton:hover {
+  background-color: #5b0a83; /* hover effect */
+}
+
+#executeButton:active {
+  transform: scale(0.97); /* press effect */
+}
+#executeButton:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+.fade-in {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+/* Zoom Controls Container */
+#zoomControls {
+  position: fixed;
+  bottom: 2%;
+  right: 2%;
+  display: flex;
+  flex-direction: column;
+  gap: 1%;
+  z-index: 10000;
+}
+
+/* Zoom Buttons */
+#zoomControls button {
+  width: 4vw;
+  height: 4vw;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 60px;
+  max-height: 60px;
+  font-size: 2vw;
+  border: none;
+  border-radius: 0.5vw;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease;
+    margin-bottom: 5px;
+}
+
+/* Hover Effect */
+#zoomControls button:hover {
+  background-color: #8e04aa; /* change to green on hover */
+  color: white; /* keep text white */
+  transform: scale(1.1); /* small pop effect */
+}
+
+/* Optional: page content container */
+#pageContent {
+  width: 100%;
+  height: 30vw;
+  transform-origin: top left;
+}
+
+/* Zoom text */
+#zoomText {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  transform: scale(1) !important;
+  transform-origin: top left;
+}
+
+/* Optional Zoom text wrapper */
+.zoom_text_content {
+  padding: 5px;
+  text-align: center;
+  color: white;
+}
+#myDropdown {
+  width: 100%;
+  padding: 3px;
+  margin-bottom: 2px;
+  box-sizing: border-box;
+  font-size: 14px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  border: #000000 solid 2px;
+  margin-top: 2px;
+}
+.dropdown_container {
+  gap: 5px;
+  background-color: rgb(38, 38, 40);
+  color:white;
+}
