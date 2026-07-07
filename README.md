@@ -16,7 +16,7 @@ Vă invităm să ne vizitați pe [recursio.ro](https://recursio.ro)
 * Multiculturalism, limbi multiple (română, engleză, maghiară)
 * Mesaje de compilare și de return
 * Legendă cu tutorial de folosire
-* Versiune pentru dispozitive mobile (nou de la etapa județeană)
+* Versiune pentru dispozitive mobile (nou de la etapa județeană!)
 * Interfață customizabilă
 * Fereastră plutitoare
 
@@ -25,6 +25,12 @@ Vă invităm să ne vizitați pe [recursio.ro](https://recursio.ro)
 <img src="prezentare1.png">
 <img src="prezentare2.png">
 <img src="prezentare3.png">
+
+## Cerințe de sistem
+
+* Browser modern (Google Chrome, Mozilla Firefox sau Apple Safari)
+* Conexiune la internet
+* Rezoluție de minim 800x600 pentru o experiență placută
 
 ## Tehnologii
 
@@ -36,11 +42,11 @@ PHP, AJAX, Bash Script și C++
 
 Aplicația noastră incorporează inteligența artificială prin modelul gpt-5.4-nano de la OpenAI, un model nou și sofisticat care este capabil de a înțelege și face sarcini în legătură cu programarea și informatica.
 
-## Self-host / instalare site pe server
-Dacă doriți să rulați Recursio pe serverul dvs., clonați acest repository și urmați [ghidul de instalare](INSTALL.MD)
-
 ## Documentație tehnică
-Pentru o prezentare mai amănunțită din punct de vedere tehnic, dați [click aici pentru a deschide documentația în format PDF](RECURSIO.pdf)
+[Documentație](RECURSIO.pdf)
+
+## Licență
+[Licență](LICENSE.txt)
 
 ## Autori
 <b>Voie Tudor</b> - back-end, automatizări, AI engineer, securitate și mentenanță server
