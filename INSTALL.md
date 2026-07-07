@@ -25,6 +25,15 @@ mkdir shares sessions
 chmod -R +x *.sh
 chmod -R 700 *
 ```
+Adăugăm cheia API de la OpenAI
+```
+cp .env.example ../.env
+nano .env
+```
+și adăugăm
+```
+CHATGPT=xxxxxx
+```
 Rulăm proiectul:
 ```
 php -S 0.0.0.0:8000 
