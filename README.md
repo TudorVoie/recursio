@@ -40,7 +40,7 @@ Aplicația noastră incorporează inteligența artificială prin modelul gpt-5.4
 Dacă doriți să rulați Recursio pe serverul dvs., clonați acest repository și urmați [ghidul de instalare](INSTALL.MD)
 
 ## Documentație tehnică
-Pentru o prezentare mai amănunțită din punct de vedere tehnic, dați [click aici pentru a deschide documentația în format PDF](RECURSIO.PDF)
+Pentru o prezentare mai amănunțită din punct de vedere tehnic, dați [click aici pentru a deschide documentația în format PDF](RECURSIO.pdf)
 
 ## Autori
 <b>Voie Tudor</b> - back-end, automatizări, AI engineer, securitate și mentenanță server
