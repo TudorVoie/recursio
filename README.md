@@ -45,10 +45,9 @@ Aplicația noastră incorporează inteligența artificială prin modelul gpt-5.4
 ## Documentație tehnică
 [Documentație](RECURSIO.pdf)
 
-## Licență
-[Licență](LICENSE.txt)
-
 ## Autori
 <b>Voie Tudor</b> - back-end, automatizări, AI engineer, securitate și mentenanță server
 <br>
 <b>Banc Mark-Daniel</b> - front-end, UI/UX Design, prelucrarea și transformarea unui stack trace într-o animație propriu-zisă
+
+<b>Copyright (c) 2026 - Voie Tudor, Banc Mark-Daniel. Toate drepturile rezervate. </b>
