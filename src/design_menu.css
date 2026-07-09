@@ -1,0 +1,696 @@
+/* NAVBAR */
+.navbar_top {
+    width: 100%;
+    height: 7vh;
+    max-height: 50px;
+
+    background: linear-gradient(
+    135deg,
+    #0b0b45 0%,
+    #1e0f5c 30%,
+    #4a1a85 65%,
+    #2f0fa3 100%
+    );
+
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999999;
+
+    display: flex;
+    align-items: center;
+
+    box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(122, 0, 204, 0.25);
+}
+
+.navbar_top-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+/*Dropdown pentru limba*/
+.lang-dropdown {
+    position: relative;
+    margin-right: 10px;
+}
+
+.lang-toggle {
+    position: relative;
+    top: 11%;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    background: linear-gradient(145deg, #9a3bff, #6a1fa8);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.35),
+        0 0 12px rgba(200, 0, 255, 0.18),
+        inset 0 1px 2px rgba(255, 255, 255, 0.12);
+    transition: all 0.2s ease;
+}
+
+.lang-toggle:hover {
+    background: linear-gradient(145deg, #b04cff, #7a2bbf);
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(200, 0, 255, 0.35);
+    transform: translateY(-1px);
+}
+
+.lang-toggle img,
+.lang-option img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+}
+
+.lang-toggle span,
+.lang-option span {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.lang-dropdown-menu {
+    position: absolute;
+    right: 0;
+    display: none;
+    min-width: 112px;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(17, 17, 33, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
+    z-index: 120;
+}
+
+.lang-dropdown:hover .lang-dropdown-menu,
+.lang-dropdown:focus-within .lang-dropdown-menu {
+    display: block;
+}
+
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 8px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.lang-option:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/*Optiuni pentru vizualizare*/
+.filter-dropdown {
+    position: relative;
+    margin-right: 20px;
+}
+
+.filter-toggle {
+    height: 38px;
+    min-width: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(145deg, #9a3bff, #6a1fa8);
+    color: white;
+
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.35),
+        0 0 12px rgba(200, 0, 255, 0.18),
+        inset 0 1px 2px rgba(255, 255, 255, 0.12);
+
+    transition: all 0.2s ease;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.filter-toggle:hover {
+    background: linear-gradient(145deg, #b04cff, #7a2bbf);
+
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(200, 0, 255, 0.35);
+
+    transform: translateY(-1px);
+}
+
+.filter-dropdown-menu {
+    position: absolute;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: none;
+
+    min-width: 160px;
+    padding: 6px;
+
+    border-radius: 8px;
+    background: rgba(17, 17, 33, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
+    
+}
+
+.filter-dropdown:hover .filter-dropdown-menu,
+.filter-dropdown:focus-within .filter-dropdown-menu {
+    display: block;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 7px 8px;
+    color: #fff;
+
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    z-index: 9999;
+    
+}
+
+
+/*Partea centrala a navbar-ului*/
+.navbar_top-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    height: 100%;
+}
+.navbar_logo {
+    height: 100%;
+    width: auto;
+}
+
+/*Verificarea optiunilor selectate*/
+.filter-option:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.filter-option input {
+    display: none;
+}
+
+.checkmark {
+    width: 16px;
+    height: 16px;
+
+    border: 2px solid white;
+    border-radius: 4px;
+
+    display: inline-block;
+    position: relative;
+}
+
+.filter-option input:checked + .checkmark {
+    background: #d000ff;
+    border-color: #d000ff;
+}
+
+/* Tick */
+.filter-option input:checked + .checkmark::after {
+    content: "";
+    position: absolute;
+
+    left: 4px;
+    top: 1px;
+
+    width: 4px;
+    height: 8px;
+
+    border: solid white;
+    border-width: 0 2px 2px 0;
+
+    transform: rotate(45deg);
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: #666; }
+::-webkit-scrollbar-corner { background: #0a0a0a; }
+
+
+/* Butoanele din partea dreapta a navbar-ului */
+.share {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    
+    height: 38px;
+    padding: 0 18px;
+    
+    background: linear-gradient(145deg, #9a3bff, #6a1fa8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.35),
+        0 0 12px rgba(200, 0, 255, 0.18),
+        inset 0 1px 2px rgba(255, 255, 255, 0.12);
+    
+    transition: all 0.2s ease;
+    margin-right: 20px;
+}
+
+/* Iconul share */
+.share svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.mobile_floating_buttons{
+    display: none;
+}
+
+.show_unshow:hover, .shrink:hover, .hide:hover, .share:hover {
+background: linear-gradient(145deg, #b04cff, #7a2bbf);
+
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(200, 0, 255, 0.35);
+
+    transform: translateY(-1px);
+}
+.hide2 {
+    display: none;
+}
+
+.show_unshow {
+    margin-right: 20px;
+}
+
+/* Parte de Timeline */
+#timelineContainer {
+    position: fixed;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 52%;
+
+    background: linear-gradient(
+        145deg,
+        rgba(15, 15, 80, 0.95),
+        rgba(60, 0, 120, 0.85)
+    );
+
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+
+    color: white;
+    text-align: center;
+    z-index: 10000;
+    font-family: Arial, sans-serif;
+
+    height: 80px;
+    padding: 6px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.7),
+        0 0 25px rgba(122, 0, 204, 0.25);
+
+    transition: height 0.3s ease, padding 0.3s ease;
+}
+
+/* Timeline micsorat*/
+#timelineContainer.collapsed {
+    height: 24px;
+    padding: 2px 4px;
+    padding-left:0;
+}
+
+#timelineContainer.collapsed #timelineControls {
+    display: none;
+}
+
+#timelineBar {
+    width: 100%;
+    cursor: pointer;
+    height: 9px;
+    border-radius: 4px;
+    background: #2a2a5a;
+    accent-color: #d000ff;
+}
+
+/* Butoanele de control a Timeline-ului */
+#timelineControls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    position: relative;
+}
+
+.centerControls {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+/* Butoanele de pauza/play */
+#playPause {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+
+    background: linear-gradient(145deg, #2e81ca, #1f5f99);
+    border: none;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.6),
+        inset 0 1px 2px rgba(255,255,255,0.2);
+
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.2s ease;
+}
+
+#playPause:hover {
+    box-shadow:
+        0 6px 18px rgba(0,0,0,0.8),
+        0 0 12px rgba(46, 129, 202, 0.6);
+        transform: scale(1.1);
+}
+
+.play-icon {
+    width: 0;
+    height: 0;
+    border-left: 16px solid white;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    margin-left: 3px;
+}
+
+.pause-icon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+}
+
+.pause-icon::before,
+.pause-icon::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 100%;
+    background: white;
+    top: 0;
+}
+
+.pause-icon::before { left: 0; }
+.pause-icon::after { right: 0; }
+
+/*Butoanele de pas inainte sau inapoi al timeline-ului*/
+#prevStep, #nextStep {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+
+    background: linear-gradient(145deg, #14107a, #0d0a74);
+    border: none;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.6),
+        inset 0 1px 2px rgba(255,255,255,0.1);
+
+    cursor: pointer;
+    position: relative;
+
+    transition: all 0.2s ease;
+}
+
+#prevStep:hover, #nextStep:hover {
+    transform: scale(1.1);
+    box-shadow:
+        0 6px 16px rgba(0,0,0,0.8),
+        0 0 10px rgba(122, 0, 204, 0.5);
+}
+
+/* PREV ICON */
+#prevStep::before,
+#prevStep::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-style: solid;
+}
+
+#prevStep::before {
+    left: 9px;
+    border-width: 7px 9px 7px 0;
+    border-color: transparent white transparent transparent;
+}
+
+#prevStep::after {
+    left: 18px;
+    border-width: 7px 9px 7px 0;
+    border-color: transparent white transparent transparent;
+}
+
+/* NEXT ICON */
+#nextStep::before,
+#nextStep::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-style: solid;
+}
+
+#nextStep::before {
+    right: 18px;
+    border-width: 7px 0 7px 9px;
+    border-color: transparent transparent transparent white;
+}
+
+#nextStep::after {
+    right: 9px;
+    border-width: 7px 0 7px 9px;
+    border-color: transparent transparent transparent white;
+}
+
+/*Speed-up al animatiei*/
+.speedControl {
+    margin-left: auto;
+    margin-right: 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 15px;
+}
+.x_icon {
+    font-weight: bold;
+    font-size: 15px;
+}
+#speedup_text {
+    min-width: 18px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+.increase_decrease {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+#plus, #minus {
+    width: 30px;
+    height: 26px;
+
+    background: linear-gradient(145deg, #14107a, #0d0a74);
+    color: white;
+
+    border: none;
+    border-radius: 5px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.6),
+        inset 0 1px 2px rgba(255,255,255,0.1);
+
+    transition: all 0.2s ease;
+}
+
+#plus:hover, #minus:hover {
+    transform: scale(1.06);
+}
+
+#plus:active, #minus:active {
+    transform: scale(0.95);
+}
+
+/* ========================= */
+/* INTERACTIONS */
+/* ========================= */
+#timelineControls button:active {
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* ========================= */
+/* CLEANUP */
+/* ========================= */
+#timelineControls button:focus,
+#timelineControls button:focus-visible,
+#timelineBar:focus {
+    outline: none;
+}
+
+#timelineLabel {
+    display: none;
+}
+/*Fereastra de eroare a compilarii*/
+.compilation_output_wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 460px;
+    max-width: 92vw;
+    z-index: 900;
+    background: #fff4e5;
+    color: #663c00;
+    border: 1px solid #ffb74d;
+    border-left: 4px solid #ff9800;
+    border-radius: 6px;
+    padding: 28px 14px 14px 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+#compilationOutput {
+    width: 100%;
+    min-height: 220px;
+    max-height: 60vh;
+    background: transparent;
+    color: inherit;
+    border: none;
+    outline: none;
+    font-family: "Consolas", monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    resize: none;
+    overflow: auto;
+    white-space: pre-wrap;
+    padding: 0;
+}
+
+.compilation-close-x {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    border: none;
+    background: transparent;
+    color: #663c00;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.compilation-close-x:hover {
+    background: rgba(0,0,0,.08);
+    color: #3e2500;
+}
+
+/* hide rules (pastreaza comportamentul tau existent) */
+.compilation_output_wrapper[style*="display:none"],
+.compilation_output_wrapper[style*="display: none"] {
+    display: none !important;
+}
+.compilation_output_wrapper.hidden {
+    display: none !important;
+}
+
+.loader {
+    width: 30px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side, #fff 90%, #0000);
+    background: 
+        var(--_g) 0%   50%,
+        var(--_g) 50%  50%,
+        var(--_g) 100% 50%;
+    background-size: calc(100%/3) 50%;
+    animation: l3 1s infinite linear;
+    display: inline-block;
+    vertical-align: middle;
+}
+@keyframes l3 {
+    20% { background-position: 0%   0%, 50%  50%, 100%  50%; }
+    40% { background-position: 0% 100%, 50%   0%, 100%  50%; }
+    60% { background-position: 0%  50%, 50% 100%, 100%   0%; }
+    80% { background-position: 0%  50%, 50%  50%, 100% 100%; }
+}
+#executeButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 180px;
+}

@@ -5,10 +5,6 @@
 error_reporting(E_ERROR | E_PARSE);
 ini_set('display_errors', '0');
 
-if(strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'mobile') || strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'android')) {
-   header('Location: mobileerror.php');
-   exit;
-}
 
 
 session_start();
@@ -305,43 +301,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['chat_request'])) {
 
-    $msg = trim($_POST['message'] ?? '');
-    if ($msg === '') {
-        send_json(['success' => false, 'error' => 'Empty message']);
-    }
+        $msg = trim($_POST['message'] ?? '');
+        if ($msg === '') {
+            send_json(['success' => false, 'error' => 'Empty message']);
+        }
 
-    if (!isset($_SESSION['chat_history'])) {
-    $_SESSION['chat_history'] = [
-        [
-            "role" => "system",
-            "content" =>
-                "You are a coding assistant integrated inside a recursion visualizer website.
+        if (!isset($_SESSION['chat_history'])) {
+            $_SESSION['chat_history'] = [
+                [
+                    "role" => "system",
+                    "content" =>
+                        "You are a coding assistant integrated inside a recursion visualizer website.
                 The user will ask questions about THEIR OWN code.
                 Always answer short, clear and relevant to the current code.
                 Remember previous conversation context."
-        ]
-    ];
-}
+                ]
+            ];
+        }
 
-    $_SESSION['chat_history'][] = ["role" => "user", "content" => $msg];
+        $_SESSION['chat_history'][] = ["role" => "user", "content" => $msg];
 
-   $messages = $_SESSION['chat_history'];
+        $messages = $_SESSION['chat_history'];
 
-    $result = intrebare_chat($messages, $chatgptkey);
+        $result = intrebare_chat($messages, $chatgptkey);
 
-    if (!$result['error']) {
-        $_SESSION['chat_history'][] = [
-            "role" => "assistant",
-            "content" => $result['data']
-        ];
+        if (!$result['error']) {
+            $_SESSION['chat_history'][] = [
+                "role" => "assistant",
+                "content" => $result['data']
+            ];
+        }
+
+        send_json([
+            'success' => empty($result['error']),
+            'response' => $result['data'],
+            'error' => $result['error'] ?? null
+        ]);
     }
-
-    send_json([
-        'success' => empty($result['error']),
-        'response' => $result['data'],
-        'error' => $result['error'] ?? null
-    ]);
-}
 
     // ========== ChatGPT handler ========== 
     if (isset($_POST['chatgpt_request'])) {
@@ -418,7 +414,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $meta = ['id' => $shareId, 'name' => $sharerName, 'title' => $shareTitle, 'created_at' => date('c')];
         file_put_contents($shareDir . '/meta.json', json_encode($meta, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        $shareUrl = 'https://recursio.ro/?share=' . urlencode($shareId);
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+        $shareUrl = $protocol . '://' . $host . '/index.php?share=' . urlencode($shareId);
 
         if ($isAjax) {
             send_json([
@@ -480,6 +478,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             file_put_contents("$workDir/text_test.txt", $output);
             shell_exec(__DIR__ . "/a.out " . escapeshellarg($workDir) . ' 2>&1');
             $output = shell_exec(__DIR__ . "/void2.sh " . escapeshellarg($workDir) . ' 2>&1');
+	    unlink("$workDir/returnari.txt");
+	    file_put_contents("$workDir/returnari.txt", " ");
         } else {
             $cmd = __DIR__ . ($par == 0 ? "/int.sh " : "/intcuparametri.sh ") . escapeshellarg($call) . " " . escapeshellarg($dockerpath);
             $output = shell_exec($cmd . ' 2>&1');
@@ -488,14 +488,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $output = shell_exec(__DIR__ . "/int2.sh " . escapeshellarg($workDir) . ' 2>&1');
         }
 
-	if($par == 0) {
+        if ($par == 0) {
             file_put_contents("$workDir/supVars.cpp", "");
         }
 
         $chatgptCode = $code . "\n\n// Supplementary variables:\n" . $supVars . "\n\n// Function call:\n" . $call;
         $prompt = "Describe this code in detail and point out what it does, how it works, and any important variables or functions. Do not use markdown and write in $lang language. \n\nCode:\n" . $chatgptCode;
-        
-        
+
+
         $result = intrebare($prompt, $chatgptkey, $lang);
 
         // === FIX BUG "PRIMUL CLICK FACE REFRESH" - partea PHP ===
@@ -602,13 +602,65 @@ if ($isSharedView) {
 ?>
 
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recursio</title>
     <link rel="icon" type="image/png" href="Recursio-logo-Spiral.png">
     <link rel="stylesheet" href="css_design.css">
     <link rel="stylesheet" href="design_menu.css">
     <link rel="stylesheet" href="side_bar.css">
     <link rel="stylesheet" href="share_css.css">
+    <script>
+        // Detectie dupa DISPOZITIV + CAPABILITATI (pointer), nu dupa rezolutie.
+        // Ruleaza in <head>, inainte de body; injecteaza CSS-ul de mobil daca e
+        // telefon/tableta. Sursa unica de adevar pentru CSS + JS (window.IS_MOBILE).
+        function getDeviceType() {
+            const ua = navigator.userAgent.toLowerCase();
+
+            const hasTouch = navigator.maxTouchPoints > 0;
+            const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+            const finePointer = window.matchMedia("(pointer: fine)").matches;
+
+            // iPadOS 13+ (se prezinta ca Mac)
+            if (navigator.platform === "MacIntel" && hasTouch) {
+                return "tablet";
+            }
+            // iPad
+            if (/ipad/.test(ua)) {
+                return "tablet";
+            }
+            // Android tablet
+            if (/android/.test(ua) && !/mobile/.test(ua)) {
+                return "tablet";
+            }
+            // Alte tablete cunoscute
+            if (/tablet|kindle|silk|playbook|sm-t|lenovo tab/i.test(ua)) {
+                return "tablet";
+            }
+            // Telefon
+            if (/iphone|ipod|android.*mobile|windows phone|blackberry|bb10|opera mini/i.test(ua)) {
+                return "phone";
+            }
+            // Fallback bazat pe capabilitati
+            if (coarsePointer && hasTouch) {
+                return "tablet"; // dispozitiv tactil necunoscut
+            }
+            if (finePointer) {
+                return "desktop";
+            }
+            return "desktop";
+        }
+
+        window.DEVICE_TYPE = getDeviceType();
+        window.IS_MOBILE = (window.DEVICE_TYPE !== "desktop");
+
+        if (window.IS_MOBILE) {
+            document.documentElement.classList.add("is-mobile");
+            // injectam DUPA CSS-urile de desktop (cascada corecta); document.write
+            // in <head> = parsare sincrona, fara flash de desktop
+            document.write('<link rel="stylesheet" href="mobile.css">');
+            document.write('<link rel="stylesheet" href="mobile_landscape.css">');
+        }
+    </script>
 </head>
 
 <body>
@@ -650,56 +702,107 @@ if ($isSharedView) {
         <div class="text_div">
             <?php if ($isSharedView): ?>
                 <div class="share-meta-panel">
-                    <div><strong>
+                    <div id="nume_meta">
+                        <strong id="nume_meta">
                             <?= $t['meta_author'] ?>:
                         </strong>
                         <?= htmlspecialchars($shareMetaName !== '' ? $shareMetaName : '-') ?>
                     </div>
-                    <div><strong>
+                    <div id="titlu_meta">
+                        <strong id="titlu_meta">
                             <?= $t['meta_title'] ?>:
                         </strong>
                         <?= htmlspecialchars($shareMetaTitle !== '' ? $shareMetaTitle : '-') ?>
                     </div>
-                    <div><strong>
+                    <div id="data_meta">
+                        <strong id="data_meta">
                             <?= $t['meta_created'] ?>:
                         </strong>
                         <?= htmlspecialchars($shareMetaCreatedAt !== '' ? $shareMetaCreatedAt . " UTC" : '-') ?>
                     </div>
                 </div>
-            <?php endif; ?> <textarea form="myForm" name="code" class="code_input_field" id="textarea1"
-                placeholder="<?= $t['placeholder_code'] ?>" <?= $isSharedView ? 'readonly' : '' ?>><?= htmlspecialchars($displayCode) ?></textarea> <textarea form="myForm" name="supVars"
-                class="supValue_input_field" id="textarea3" placeholder="<?= $t['placeholder_vars'] ?>" <?= $isSharedView ? 'readonly' : '' ?>><?= htmlspecialchars($displaySupVars) ?></textarea> <textarea form="myForm"
-                name="call" class="value_input_field" rows="1" id="textarea2"
-                placeholder="<?= $t['placeholder_call'] ?>" <?= $isSharedView ? 'readonly' : '' ?>><?= htmlspecialchars($displayCall) ?></textarea>
+            <?php endif; ?>
+            <div class="textarea-wrapper" style="flex: 6 1 0; min-height: 0;">
+                <textarea form="myForm" name="code" class="code_input_field" id="textarea1"
+                    placeholder="<?= $t['placeholder_code'] ?>" <?= $isSharedView ? 'readonly' : '' ?>><?= htmlspecialchars($displayCode) ?></textarea>
+                <button class="hint-btn" onclick="toggleHint('hint1')">?</button>
+            </div>
+            <div class="textarea-wrapper" style="flex: 2.5 1 0; min-height: 0;">
+                <textarea form="myForm" name="supVars" class="supValue_input_field" id="textarea3"
+                    placeholder="<?= $t['placeholder_vars'] ?>" <?= $isSharedView ? 'readonly' : '' ?>><?= htmlspecialchars($displaySupVars) ?></textarea>
+                <button class="hint-btn" onclick="toggleHint('hint2')">?</button>
+            </div>
+            <div class="textarea-wrapper" style="flex: 1.5 1 0; min-height: 0;">
+                <textarea form="myForm" name="call" class="value_input_field" rows="1" id="textarea2"
+                    placeholder="<?= $t['placeholder_call'] ?>" <?= $isSharedView ? 'readonly' : '' ?>><?= htmlspecialchars($displayCall) ?></textarea>
+                <button class="hint-btn" onclick="toggleHint('hint3')">?</button>
+            </div>
+            <div class="hint-overlay" id="hint1">
+                <div class="hint-box"><button class="hint-close" onclick="toggleHint('hint1')">×</button>
+                    <?= $t['hint_code'] ?>
+                </div>
+            </div>
+            <div class="hint-overlay" id="hint2">
+                <div class="hint-box"><button class="hint-close" onclick="toggleHint('hint2')">×</button>
+                    <?= $t['hint_supvars'] ?>
+                </div>
+            </div>
+            <div class="hint-overlay" id="hint3">
+                <div class="hint-box"><button class="hint-close" onclick="toggleHint('hint3')">×</button>
+                    <?= $t['hint_call'] ?>
+                </div>
+            </div>
         </div>
-        <?php if (!$isSharedView): ?> <button form="myForm" type="submit" id="executeButton"><?= $t['execute'] ?></button>
+        <?php if (!$isSharedView): ?> <button form="myForm" type="submit" id="executeButton">
+                <?= $t['execute'] ?>
+            </button>
         <?php endif; ?>
-        <form method="post" id="myForm" onsubmit="event.preventDefault(); return false;" style="margin:0;padding:0;"></form>
+        <form method="post" id="myForm" onsubmit="event.preventDefault(); return false;" style="margin:0;padding:0;">
+        </form>
     </div>
+    <!-- Pop-up avertizare rotire: apare doar pe telefon, dupa o animatie reusita,
+         daca s-a schimbat orientarea fata de cea la care s-a generat animatia. -->
+    <div id="rotateWarning" class="rotate-warning-overlay" onclick="if(event.target===this)closeRotateWarning()">
+        <div class="rotate-warning-box">
+            <p><?= $t['rotate_warn'] ?></p>
+            <div class="rotate-warning-actions">
+                <button type="button" class="rw-regen"
+                    onclick="regenerateAfterRotate()"><?= $t['rotate_regenerate'] ?></button>
+                <button type="button" class="rw-dismiss"
+                    onclick="closeRotateWarning()"><?= $t['rotate_dismiss'] ?></button>
+            </div>
+        </div>
+    </div>
+
     <div id="aiOverlay" class="ai-overlay" onclick="closeAiSidebar()"></div>
     <div id="aiSidebar" class="ai-sidebar">
         <div class="ai-sidebar-item">
-            <div class="ai-sidebar-header"> <strong> <?= $t['ai_sidebar_title'] ?></strong>
+            <div class="ai-sidebar-header">
+                <div class="header_and_x">
+                    <strong> <?= $t['ai_sidebar_title'] ?>
+                    </strong>
+                    <button type="button" class="ai-close-btn" onclick="closeAiSidebar()"
+                        aria-label="Close AI Sidebar">×</button>
+                </div>
                 <div class="ai-sidebar-subtitle"> <?= $t['ai_sidebar_subtitle'] ?></div>
             </div>
             <form method="post" action="<?= htmlspecialchars($currentPageUrl) ?>" id="chatgptForm" class="ai-form">
                 <input type="hidden" name="chatgpt_request" value="1"> <input type="hidden" name="chatgpt_code"
-                    id="chatgptCodeHidden" value=""> 
-            </form> <label class="ai-response-label"><?= $t['ai_response_label'] ?></label> 
+                    id="chatgptCodeHidden" value="">
+            </form> <label class="ai-response-label"><?= $t['ai_response_label'] ?></label>
             <textarea readonly class="ai-response" id="chatgptResponseText"
-    placeholder="The AI's explanation will appear here..."></textarea>
-                
-                
+                placeholder="The AI's explanation will appear here..."></textarea>
+
+
             </textarea>
-            <div id="aiChatBox"> 
-                <input id="aiChatInput" type="text" placeholder="Ask AI..." class="ai-input-field">
-                
+            <div id="aiChatBox">
+                <textarea id="aiChatInput" rows="1" placeholder="Ask AI..." class="ai-input-field"></textarea>
+
             </div>
             <div>
-                <button id="aiSendBtn" type="button" id="chatgptButton" class="ai-explain-btn"><?= $t['send'] ?></button>
+                <button id="aiSendBtn" type="button" id="chatgptButton"
+                    class="ai-explain-btn"><?= $t['send'] ?></button>
             </div>
-            <div class="ai-response-actions"> <button type="button" id="aiCopyBtn" class="ai-action-btn">📋
-                    <?= $t['copy'] ?></button> <button type="button" id="aiClearBtn" class="ai-action-btn">🗑 <?= $t['clear'] ?></button> </div>
         </div>
     </div>
     <div id="compilationOutputWrapper" class="compilation_output_wrapper"
@@ -710,41 +813,122 @@ if ($isSharedView) {
             readonly><?= (file_exists("$dir/compilare.txt") && filesize("$dir/compilare.txt") !== 0 && !$isSharedView) ? ($t['compile_error'] . "\n\n" . htmlspecialchars(file_get_contents("$dir/compilare.txt"))) : '' ?></textarea>
     </div>
     <div class="navbar_top">
-        <div class="navbar_top-left"> <button type="button" class="ai-toggle-nav-btn" id="aiToggleBtn"
-                onclick="toggleAiSidebar()"> <?= $t['ai_sidebar_title'] ?> </button> <button type="button" class="ai-toggle-nav-btn"
-                onclick="window.location.href='recursivitate.php'"> <?= $t['learn_recursion'] ?> </button></div>
+        <!-- Hamburger + Drawer (doar mobil) -->
+        <button class="hamburger-btn" onclick="toggleDrawer()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+        <div class="drawer" id="drawer">
+            <div class="drawer-header">
+                <img class="drawer-logo" src="Recursio-logo-dark-bg-2-2.png">
+                <button class="drawer-close" onclick="toggleDrawer()">×</button>
+            </div>
+            <nav class="drawer-nav">
+                <button type="button" class="drawer-btn" onclick="window.location.href='ghid.php'">
+                    <?= $t['learn_recursion'] ?>
+                </button>
+                <?php if (!$isSharedView): ?>
+                    <button class="drawer-btn" onclick="openShareModal(); toggleDrawer()">
+                        <?= $t['share_animation'] ?>
+                    </button>
+                <?php endif; ?>
+            </nav>
+            <div class="drawer-art">
+                <img src="recursion_art_nobg2.png" alt="recursion tree" draggable="false">
+            </div>
+            <div class="drawer-lang">
+                <div class="drawer-lang-options">
+                    <a class="drawer-lang-btn <?= $lang === 'ro' ? 'active' : '' ?>"
+                        href="set_lang.php?lang=ro<?= $shareQuerySuffix ?>">
+                        <img src="ro.png" alt="RO"> <span>RO</span>
+                    </a>
+                    <a class="drawer-lang-btn <?= $lang === 'en' ? 'active' : '' ?>"
+                        href="set_lang.php?lang=en<?= $shareQuerySuffix ?>">
+                        <img src="en.png" alt="EN"> <span>EN</span>
+                    </a>
+                    <a class="drawer-lang-btn <?= $lang === 'hu' ? 'active' : '' ?>"
+                        href="set_lang.php?lang=hu<?= $shareQuerySuffix ?>">
+                        <img src="hu.png" alt="HU"> <span>HU</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="navbar_top-left">
+            <button type="button" class="ai-toggle-nav-btn" id="aiToggleBtn" onclick="toggleAiSidebar()">
+                <?= $t['ai_sidebar_title'] ?>
+            </button>
+            <button type="button" class="ai-toggle-nav-btn" onclick="window.location.href='ghid.php'">
+                <?= $t['learn_recursion'] ?>
+            </button>
+        </div>
         <div class="navbar_top-center">
             <img class="navbar_logo" src="Recursio-logo-dark-bg-2-2.png">
         </div>
-        <div class="navbar_top-right"> <button type="button" class="hide2" id="toggleCompilationOutput"
-                data-hide-label="<?= $t['hide_compile'] ?>" data-show-label="<?= $t['show_compile'] ?>"
+        <div class="navbar_top-right">
+            <button type="button" class="hide2" id="toggleCompilationOutput" data-hide-label="<?= $t['hide_compile'] ?>"
+                data-show-label="<?= $t['show_compile'] ?>"
                 style="<?= (file_exists("$dir/compilare.txt") && filesize("$dir/compilare.txt") !== 0) ? '' : 'display:none;' ?>">
                 <?= $t['hide_compile'] ?>
-            </button> <button type="button" class="hide2" id="toggleProgramOutput"
-                data-hide-label="<?= $t['hide_output'] ?>" data-show-label="<?= $t['show_output'] ?>"
+            </button>
+            <button type="button" class="hide2" id="toggleProgramOutput" data-hide-label="<?= $t['hide_output'] ?>"
+                data-show-label="<?= $t['show_output'] ?>"
                 style="<?= (file_exists("$dir/iesire.txt") && filesize("$dir/iesire.txt") !== 0) ? '' : 'display:none;' ?>">
                 <?= $t['hide_output'] ?>
             </button>
-            <?php if (!$isSharedView): ?> <button class="share" id="share" onclick="openShareModal(); return false;">
-                    <?= $t['share_animation'] ?>
+            <?php if (!$isSharedView): ?>
+                <button class="share" id="share" onclick="openShareModal(); return false;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-share"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                    </svg>
+                    <span class="share-text"><?= $t['share_animation'] ?></span>
                 </button>
             <?php endif; ?>
-            <?php if ($isSharedView): ?> <button class="share" id="share"
-                    onclick="window.location.href='index.php';">
+            <?php if ($isSharedView): ?>
+                <button class="share" id="share" onclick="window.location.href='index.php';">
                     <?= $t['go_to_editor'] ?>
                 </button>
             <?php endif; ?>
+            <div type="button" class="ai-toggle-nav-btn mobile-ai-btn pen" onclick="window.location.href='index.php';">
+                <img src="pen.png" class="editor_mobile">
+            </div>
+            <button type="button" class="ai-toggle-nav-btn mobile-ai-btn" id="aiToggleBtn" onclick="toggleAiSidebar()">
+                AI
+            </button>
         </div>
-        <div class="filter-dropdown"> <button type="button" class="filter-toggle"> <span> <?= $t['filters'] ?></span> </button>
-            <div class="filter-dropdown-menu"> <label class="filter-option"> <span>
+        <div class="filter-dropdown">
+            <button type="button" class="filter-toggle">
+                <span> <?= $t['filters'] ?></span>
+            </button>
+            <div class="filter-dropdown-menu">
+                <label class="filter-option">
+                    <span>
                         <?= $t['hide_timeline'] ?>
-                    </span> <input type="checkbox" id="toggleTimelineVisibility" onclick="toggleTimelineVisibility()">
-                    <span class="checkmark"></span> </label> <label class="filter-option"> <span>
-                        <?= $t['shrink_timeline'] ?>
-                    </span> <input type="checkbox" id="toggleTimeline" onclick="toggleTimeline()"> <span
-                        class="checkmark"></span> </label> <label class="filter-option"> <span>
+                    </span>
+                    <input type="checkbox" id="toggleTimelineVisibility" onclick="toggleTimelineVisibility()">
+                    <span class="checkmark">
+                    </span>
+                </label>
+                <label class="filter-option">
+                    <span>
+                        <?= $t['hide_zoom'] ?>
+                    </span> <input type="checkbox" id="toggleTimeline" onclick="toggleZoomControls(this)">
+                    <span class="checkmark">
+                    </span>
+                </label>
+                <label class="filter-option">
+                    <span>
                         <?= $t['hide_code'] ?>
-                    </span> <input type="checkbox" id="toggleDragBox"> <span class="checkmark"></span> </label> </div>
+                    </span>
+                    <input type="checkbox" id="toggleDragBox">
+                    <span class="checkmark">
+                    </span>
+                </label>
+            </div>
         </div>
         <div class="lang-dropdown"> <button type="button" class="lang-toggle" aria-label="Language selector"> <img
                     src="<?= htmlspecialchars($lang) ?>.png" alt="<?= htmlspecialchars($lang) ?> flag"> <span>
@@ -757,7 +941,12 @@ if ($isSharedView) {
                     href="set_lang.php?lang=hu<?= $shareQuerySuffix ?>"><img src="hu.png"
                         alt="Hungarian flag"><span>HU</span></a> </div>
         </div>
-    </div> <button id="legendBtn" class="legend-btn">&#x21D2</button>
+    </div>
+    <button id="legendBtn" class="legend-btn">&#x21D2</button>
+    <div class="mobile_floating_buttons" id="mobile_code_change">
+        <button class="tab-btn active" data-tab="code">Code</button>
+        <button class="tab-btn" data-tab="vizualizare">View</button>
+    </div>
     <div id="legendOverlay" class="legend-overlay" onclick="closeLegend()"></div>
     <div id="legendSidebar" class="legend-sidebar">
         <div class="legend-item">
@@ -795,6 +984,7 @@ if ($isSharedView) {
             <p id="nodes"> <?= $t['nodes'] ?>: 0</p>
             <p id="levels"> <?= $t['levels'] ?>: 0</p>
         </div>
+	<div class="disclaimer"> <?= $t['disclaimer'] ?> </div>
     </div>
     <div id="shareModalOverlay" class="share-modal-overlay" aria-hidden="true">
         <div class="share-modal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
@@ -812,24 +1002,37 @@ if ($isSharedView) {
             <div id="shareResultBox" class="share-result-box"> <button type="button" id="shareCloseX"
                     class="share-close-x">×</button>
                 <div id="shareStatusMessage"></div>
-                 <input id="shareLinkOutput" type="text" readonly> <button type="button"
+                <input id="shareLinkOutput" type="text" readonly> <button type="button"
                     id="copyShareLinkBtn"><?= $t['copy'] ?></button>
             </div>
         </div>
     </div>
     <div class="custom_scroll_wrapper"></div>
-    <div id="timelineContainer"> <input type="range" id="timelineBar" min="0" max="100" value="0">
-        <div id="timelineControls">
-            <div class="centerControls"> <button id="prevStep" title="Previous Step"></button> <button id="playPause"
-                    title="Play/Pause" onclick="clik_verificare()">
-                    <div id="icon" class="play-icon"></div>
-                </button> <button id="nextStep" title="Next Step"></button> </div>
-            <div class="speedControl"> <span class="x_icon">x</span> <span id="speedup_text">1</span>
-                <div class="increase_decrease"> <button id="plus" onclick="plus_button()">+</button> <button id="minus"
-                        onclick="minus_button()">-</button> </div>
-            </div>
-        </div> <span id="timelineLabel">0 / 0</span>
+    <div id="timelineContainer">
+        <button id="timelineExpandBtn" onclick="toggleTimeline()">▲</button>
+        <div class="aranjare">
+            <input type="range" id="timelineBar" min="0" max="100" value="0">
+            <div id="timelineControls">
+                <button id="timelineToggleBtn" onclick="toggleTimeline()">▼</button>
+                <div class="centerControls">
+                    <button id="prevStep" title="Previous Step"></button>
+                    <button id="playPause" title="Play/Pause" onclick="clik_verificare()">
+                        <div id="icon" class="play-icon"></div>
+                    </button>
+                    <button id="nextStep" title="Next Step"></button>
+                </div>
+                <div class="speedControl">
+                    <span class="x_icon">x</span>
+                    <span id="speedup_text">1</span>
+                    <div class="increase_decrease">
+                        <button id="plus" onclick="plus_button()">+</button>
+                        <button id="minus" onclick="minus_button()">-</button>
+                    </div>
+                </div>
+            </div> <span id="timelineLabel">0 / 0</span>
+        </div>
     </div>
+
     <div id="pageContent">
         <div id="container" class="container67"> <svg id="svg-lines"></svg> </div>
     </div>
@@ -914,6 +1117,12 @@ if ($isSharedView) {
             if (!overlay) return;
             overlay.classList.remove('open');
             overlay.setAttribute('aria-hidden', 'true');
+            // reset
+            document.getElementById('shareNameInput').value = '';
+            document.getElementById('shareTitleInput').value = '';
+            document.getElementById('shareResultBox').style.display = 'none';
+            document.getElementById('shareStatusMessage').innerHTML = '';
+            document.getElementById('shareLinkOutput').value = '';
         }
 
         /* ============================================================ */
@@ -963,8 +1172,28 @@ if ($isSharedView) {
 
                 if (executeButton) {
                     executeButton.disabled = true;
-                    executeButton.dataset.oldLabel = executeButton.textContent;
-                    executeButton.textContent = '...';
+                    executeButton.dataset.oldHTML = executeButton.innerHTML;
+
+                    const messages = [
+                        "<?= addslashes($t['executing_code']) ?>",
+                        "<?= addslashes($t['generating_matrix']) ?>",
+                        "<?= addslashes($t['analyzing_recursion']) ?>",
+                        "<?= addslashes($t['calling_ai_assistant']) ?>",
+                        "<?= addslashes($t['building_visualization']) ?>"
+                    ];
+                    let msgIndex = 0;
+                    const loaderHTML = `<div class="loader"></div>`;
+                    executeButton.innerHTML = messages[0] + loaderHTML;
+
+                    // Cycle through loading messages while waiting
+                    window.executeLoadingInterval = setInterval(() => {
+                        if (!executeButton.disabled) {
+                            clearInterval(window.executeLoadingInterval);
+                            return;
+                        }
+                        msgIndex = (msgIndex + 1) % messages.length;
+                        executeButton.innerHTML = messages[msgIndex] + loaderHTML;
+                    }, 3000);
                 }
                 if (typeof isPlaying !== 'undefined') isPlaying = false;
                 if (typeof pauseRequested !== 'undefined') pauseRequested = true;
@@ -1061,6 +1290,7 @@ if ($isSharedView) {
 
                     if (chatgptPanel) chatgptPanel.style.display = '';
                     window.animationBlocked = false;
+                    window.codeExecuted = true;
                     hardResetAnimationState();
 
                     /* ===== RUN ANIMATION =====
@@ -1070,6 +1300,17 @@ if ($isSharedView) {
                     const tryRun = (attempts) => {
                         if (typeof window.generateAnimation === 'function') {
                             window.softResetAndRun();
+                            // Retinem orientarea la care s-a generat animatia (referinta
+                            // pentru avertizarea de rotire). Se reface la fiecare executie.
+                            window.animGenOrientation = (window.matchMedia && window.matchMedia('(orientation: portrait)').matches) ? 'portrait' : 'landscape';
+                            // Pe telefon: dupa o executie REUSITA, sari lin pe tab-ul
+                            // de animatie (tranzitia CSS de 0.4s face mutarea lina).
+                            // Ruleaza doar cand tab-urile mobile sunt vizibile.
+                            const mobileTabs = document.querySelector('.mobile_floating_buttons');
+                            const vizTab = document.querySelector('[data-tab="vizualizare"]');
+                            if (mobileTabs && vizTab && getComputedStyle(mobileTabs).display !== 'none') {
+                                setTimeout(() => vizTab.click(), 150);
+                            }
                         } else if (attempts < 200) {
                             setTimeout(() => tryRun(attempts + 1), 50);
                         } else {
@@ -1088,10 +1329,14 @@ if ($isSharedView) {
                 } catch (err) {
                     console.error(err);
                 } finally {
+                    if (window.executeLoadingInterval) {
+                        clearInterval(window.executeLoadingInterval);
+                        window.executeLoadingInterval = null;
+                    }
                     const executeButton = document.getElementById('executeButton');
                     if (executeButton) {
                         executeButton.disabled = false;
-                        executeButton.textContent = executeButton.dataset.oldLabel || 'Execute';
+                        executeButton.innerHTML = executeButton.dataset.oldHTML || 'Execute';
                     }
                 }
             });
@@ -1099,7 +1344,29 @@ if ($isSharedView) {
         /* ============================================================ */
         /* === SFARSITUL FIX-ULUI ===================================== */
         /* ============================================================ */
+        // ← AICI LIPEȘTE CODUL NOU (Enter pentru Execute)
+        const textarea1 = document.getElementById('textarea1');
+        const textarea2 = document.getElementById('textarea2');
+        const textarea3 = document.getElementById('textarea3');
+        const executeForm = document.getElementById('myForm');
 
+        function triggerExecute() {
+            if (executeForm) {
+                executeForm.dispatchEvent(new Event('submit', { bubbles: true }));
+            }
+        }
+
+        [textarea1, textarea2, textarea3].forEach(textarea => {
+            if (textarea) {
+                textarea.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        if (textarea === textarea1) return; // Enter normal în câmpul de cod
+                        e.preventDefault();
+                        triggerExecute();
+                    }
+                });
+            }
+        });
         /* ================= DOM READY ================= */
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -1137,72 +1404,92 @@ if ($isSharedView) {
             const legendSidebar = document.querySelector('.legend-sidebar');
 
             const aiSendBtn = document.getElementById('aiSendBtn');
-const aiInput = document.getElementById('aiChatInput');
-const aiMessages = document.getElementById('aiMessages');
+            const aiInput = document.getElementById('aiChatInput');
+            const aiMessages = document.getElementById('aiMessages');
 
-if (aiSendBtn) {
+            if (aiSendBtn) {
+                aiSendBtn.addEventListener('click', async () => {
+                    const text = aiInput.value.trim();
+                    if (!text) return;
 
-    aiSendBtn.addEventListener('click', async () => {
+                    aiInput.value = '';
 
-        const text = aiInput.value.trim();
+                    // === LOADING STATE (same style as Execute button) ===
+                    const oldText = aiSendBtn.innerHTML;
+                    aiSendBtn.disabled = true;
 
-        if (!text) return;
+                    const aiMessages = [
+                        "<?= addslashes($t['ai_thinking']) ?>",
+                        "<?= addslashes($t['ai_generating']) ?>",
+                        "<?= addslashes($t['ai_analyzing']) ?>",
+                        "<?= addslashes($t['ai_finalizing']) ?>"
+                    ];
+                    let msgIndex = 0;
+                    const loaderHTML = `<div class="loader" style="width:45px; margin-left:8px;"></div>`;
+                    aiSendBtn.innerHTML = aiMessages[0] + loaderHTML;
 
-        aiInput.value = '';
+                    const aiLoadingInterval = setInterval(() => {
+                        if (!aiSendBtn.disabled) {
+                            clearInterval(aiLoadingInterval);
+                            return;
+                        }
+                        msgIndex = (msgIndex + 1) % aiMessages.length;
+                        aiSendBtn.innerHTML = aiMessages[msgIndex] + loaderHTML;
+                    }, 1800);
 
-        // luam codul curent
-        const currentCode =
-            document.getElementById('textarea1')?.value || '';
+                    // === Actual request ===
+                    const currentCode = document.getElementById('textarea1')?.value || '';
+                    const currentCall = document.getElementById('textarea2')?.value || '';
+                    const currentVars = document.getElementById('textarea3')?.value || '';
 
-        const currentCall =
-            document.getElementById('textarea2')?.value || '';
+                    const fd = new FormData();
+                    fd.append('chat_request', '1');
+                    fd.append('message', `
+User question: ${text}
 
-        const currentVars =
-            document.getElementById('textarea3')?.value || '';
+Current code: ${currentCode}
+Supplementary variables: ${currentVars}
+Function call: ${currentCall}
+        `);
 
-        const fd = new FormData();
+                    try {
+                        const res = await fetch('index.php', {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
+                            },
+                            body: fd
+                        });
 
-        fd.append('chat_request', '1');
+                        const data = await res.json();
 
-        fd.append(
-            'message',
-            `
-User question:
-${text}
+                        if (chatgptResponseText) {
+                            chatgptResponseText.value = data.response || data.error || 'No response';
+                        }
 
-Current code:
-${currentCode}
+                    } catch (err) {
+                        console.error(err);
+                        if (chatgptResponseText) {
+                            chatgptResponseText.value = 'Network error: ' + err.message;
+                        }
+                    } finally {
+                        clearInterval(aiLoadingInterval);
+                        aiSendBtn.disabled = false;
+                        aiSendBtn.innerHTML = oldText;
+                    }
+                });
+            }
 
-Supplementary variables:
-${currentVars}
+            // === SEND WITH ENTER KEY (AI Chat) ===
+            const aiChatInput = document.getElementById('aiChatInput');
 
-Function call:
-${currentCall}
-`
-        );
-
-        const res = await fetch('index.php', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            },
-            body: fd
-        });
-
-        const data = await res.json();
-
-        // raspunsul apare DOAR in textarea
-        if (chatgptResponseText) {
-
-            chatgptResponseText.value =
-                data.response || data.error || 'No response';
-
-        }
-
-    });
-
-}
+            aiChatInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    aiSendBtn.click();
+                }
+            });
 
             /* ===== HELPERS ===== */
 
@@ -1343,6 +1630,21 @@ ${currentCall}
                 const sharerName = nameInput.value.trim();
                 const shareTitle = titleInput.value.trim();
 
+                if (!window.codeExecuted) {
+                    alert('<?= addslashes($t['share_err_no_exec'] ?? 'Trebuie să execuți codul înainte de a - l partaja!') ?>');
+                    return;
+                }
+                if (!window.codeExecuted) {
+                    alert('<?= addslashes($t['share_err_no_exec'] ?? 'Trebuie să execuți codul înainte de a - l partaja!') ?>');
+                    return;
+                }
+
+                const compilationOutput = document.getElementById('compilationOutput');
+                if (compilationOutput && compilationOutput.value.trim() !== '') {
+                    alert('<?= addslashes($t['share_err_compile'] ?? 'Codul tău are erori de compilare. Corectează erorile înainte de a partaja!') ?>');
+                    return;
+                }
+
                 if (sharerName === '') { nameInput.focus(); return; }
                 if (shareTitle === '') { titleInput.focus(); return; }
 
@@ -1416,9 +1718,51 @@ ${currentCall}
     <script src="Code_field.js"></script>
     <script src="Dropdown.js"></script>
     <script src="explanation.js"></script>
+    <script src="mobile_js.js"></script>
     <?php if ($output !== ''): ?>
         <pre><?= htmlspecialchars($output) ?></pre>
     <?php endif; ?>
+
+    <script>
+        // ==== Avertizare la rotire (doar telefon, doar dupa animatie reusita) ====
+        function rw_orientation() {
+            return (window.matchMedia && window.matchMedia('(orientation: portrait)').matches) ? 'portrait' : 'landscape';
+        }
+        function closeRotateWarning() {
+            const p = document.getElementById('rotateWarning');
+            if (p) p.classList.remove('open');
+        }
+        function regenerateAfterRotate() {
+            closeRotateWarning();
+            const form = document.getElementById('myForm');
+            if (form) form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        }
+        (function () {
+            function onRotate() {
+                // exista o animatie generata?
+                if (!window.animGenOrientation) return;
+                // orientarea curenta se potriveste cu cea la care s-a generat -> animatia
+                // e din nou corecta; daca pop-up-ul e deschis (ai rotit inapoi), il inchidem
+                if (rw_orientation() === window.animGenOrientation) {
+                    closeRotateWarning();
+                    return;
+                }
+                // doar pe telefon (tab-urile mobile vizibile)
+                const tabs = document.querySelector('.mobile_floating_buttons');
+                if (!tabs || getComputedStyle(tabs).display === 'none') return;
+                const p = document.getElementById('rotateWarning');
+                if (p) p.classList.add('open');
+            }
+            // asteptam sa se aseze layout-ul dupa rotire
+            window.addEventListener('orientationchange', () => setTimeout(onRotate, 250));
+            if (window.matchMedia) {
+                try {
+                    window.matchMedia('(orientation: portrait)')
+                        .addEventListener('change', () => setTimeout(onRotate, 250));
+                } catch (e) { }
+            }
+        })();
+    </script>
 </body>
 
 </html>

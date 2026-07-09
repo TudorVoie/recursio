@@ -1,0 +1,504 @@
+/*Varianta de landscape pentru telefoane mobile/laptop*/
+/*Is aceleasi elemente ca in mobile.css, dar cu dimensiuni diferite pentru landscape*/
+/*De asemenea 99% din elemente sunt si in varianta de desktop, dar cu dimensiuni diferite pentru telefon/tableta.
+Am considerat ca id-ul si clasele au nume destul de sugestive, deci nu mai comentez si aici, oricum am facut in varianta de desktop.*/
+@media (orientation: landscape) {
+    .navbar_top{
+        height: 13dvh;
+        max-height:unset;
+    }
+    .drawer-art {
+        display: none;
+    }
+    .mobile-ai-btn.pen{
+        display: none;
+    }
+    .container67{
+        margin-left: 2.5vw;
+    }
+    .drawer-lang{
+        padding-bottom: 4dvh;
+        padding-top: 3dvh;
+        padding-right: 4.5dvh;
+        padding-left: 4.5dvh;
+    }
+    .drawer-nav{
+        padding: 4dvh 3dvh;
+        gap: 3.5dvh;
+    }
+    #chatgptForm{
+        font-size: 4dvh;
+    }
+    .drawer-logo{
+        width: 30dvh;
+        height:auto;
+    }
+    .drawer-close{
+        font-size: 5dvh;
+    }
+    .drawer-header{
+        padding:3dvh;
+    }
+    .drawer-btn{
+        padding: 3dvh 4dvh;
+        font-size: 3dvh;
+    }
+    .drawer-lang-btn{
+        flex: 0.5;
+        font-size: 3dvh;
+        gap: 1dvh;
+    }
+    .drawer{
+        max-width:35%;
+    }
+    .drawer-lang-btn.active{
+        font-size: 2.5dvh;
+        padding: 0.5dvh 0;
+    }
+    .drawer-lang-btn img{
+        width: 3dvh;
+        padding: 2dvh 0;
+    }
+    .drawer-lang-options{
+        gap: 4.5dvh;
+    }
+    .hamburger-btn{
+        width: 8vw;
+        gap: 2.2dvh;
+        margin-left: 0;
+    }
+    .hamburger-btn span{
+        height: 1dvh;
+    }
+    
+    .navbar_logo{
+        width: auto;
+        height: stretch;
+    }
+    .mobile-ai-btn{
+        width: 9dvh;
+        height: 9dvh;
+        font-size: 4.5dvh;
+        border-radius: 1dvh;
+        margin-right: 2vw;
+    }
+    #aiSidebar{
+        top: 13%;
+        padding-top:0;
+    }
+    .code_input_field, .supValue_input_field, .value_input_field{
+         border-radius: 5px;
+         font-size: 3dvh;
+    }
+    #myDropdown{
+        border-radius: 5px;
+        margin-bottom: 1.3dvh;
+        font-size: 3dvh;
+        padding: 3px 12px;
+    }
+    #dragBox{
+        top:13dvh;
+        margin-right: 15%;
+        margin-left: 15%;
+        width: 70%;
+        padding: 1.5dvh;
+        padding-bottom: 0;
+        margin-top: 2dvh;
+        height: 82dvh;
+    }
+    .text_div{
+        gap: 1.5dvh;
+    }
+    #executeButton{
+        padding: 0.7dvh 0;
+        font-size: 3dvh;
+        width: 98%;
+        border-radius: 5px;
+    }
+    .hint-btn{
+        width: 4dvh;
+        height: 4dvh;
+        justify-self: center;
+        align-self: center;
+        font-size: 3dvh;
+        line-height: normal;
+    }
+     #timelineContainer {
+        border-radius: 10px;
+        width:70%;
+        left:15%;
+        height: unset;
+        transform: translateX(130%);
+    }
+
+    #timelineControls {
+        margin-top: 1dvh;
+        width:100%;
+    }
+
+    .centerControls {
+        gap: 3dvh;
+    }
+
+    .play-icon {
+       border-left: 2.5vw solid white;
+        border-top: 1.5vw solid transparent;
+        border-bottom: 1.5vw solid transparent;
+        margin-left: 0.5vw;
+    }
+
+    .pause-icon {
+        width: 2.5vw;
+        height: 2.5vw;
+    }
+
+    .pause-icon::before,
+    .pause-icon::after {
+         width: 1vw;
+    }
+
+    #prevStep,
+    #nextStep {
+        width: 6vw;
+        height: 6vw;
+    }
+    .speedControl {
+        margin-right: 1.5vw;
+        gap: 0;
+        font-size: 2vw;
+    }
+
+    .x_icon,
+    #speedup_text {
+        margin-top: 2dvh;
+        font-size: 4.3dvh;
+    }
+
+    #plus,
+    #minus {
+        width: 6dvh;
+        height: 5.7dvh;
+        font-size: 4.3dvh;
+    }
+    .increase_decrease{
+        gap: 1.2dvh;
+    }
+    #timelineContainer{
+        padding-top:0;
+        padding-right: 0;
+    }
+    #timelineBar::-webkit-slider-thumb {
+        transform: scaleY(1);
+    }
+    #prevStep, #nextStep{
+        width: 9.8dvh;
+        height: 9.8dvh;
+    }
+    #timelineBar{
+        height:2dvh;
+        margin-bottom:0;
+        margin-top: 0;
+    }
+    #timelineControls{
+        margin-top: 0.7dvh;
+    }
+
+    .mobile_floating_buttons {
+        flex-direction: column;
+        position: fixed;
+        top: 55%;
+        left: 0;
+        transform: translateY(-50%);
+        width: auto;
+        height: auto;
+        gap: 8px;
+        padding: 8px 4px;
+        right: auto;
+    }
+
+    .mobile_floating_buttons .tab-btn {
+        font-size: 3.5dvh;
+        width: 4vw;
+        height: auto;
+        padding: 10px 6px;
+        line-height: 1.4;
+        word-break: break-all;
+    }
+
+    .tab-btn[data-tab="code"] { font-size: 0; }
+    .tab-btn[data-tab="code"]::after {
+        content: "C\A O\A D\A E";
+        white-space: pre;
+        font-size: 1.6vw;
+        text-align: center;
+    }
+
+    .tab-btn[data-tab="vizualizare"] { font-size: 0; }
+    .tab-btn[data-tab="vizualizare"]::after {
+        content: "V\AI\A E\A W";
+        white-space: pre;
+        font-size: 1.6vw;
+        text-align: center;
+    }
+    #timelineContainer.collapsed{
+        padding-top:0;
+        padding-bottom:0;
+    }
+    #pageContent{
+        top:13dvh;
+        height: 80dvh;
+    }
+    .ai-close-btn {
+        border-radius: 50%;
+        width: 6dvh;
+        height: 6dvh;
+        padding: 0;
+        transform: scale(1);
+        font-size: 4dvh;
+    }
+    .ai-sidebar-subtitle{
+        display: none;
+    }
+    .ai-sidebar-header{
+        padding:14px 16px;
+    }
+    .ai-response-actions{
+        display: none;
+    }
+    .ai-input-field{
+        height: 17dvh;
+        font-size: 3dvh;
+    }
+    /*timeline-size change*/
+
+    .aranjare{
+        width:94.5%;
+    }
+    #timelineExpandBtn {
+        display: none;
+        position: absolute;
+        left: 0.5vw;
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(145deg, #14107a, #0d0a74);
+        border: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        margin-left: 1vw;
+        transition: all 0.35s ease;
+        align-items: center;
+    }
+
+    #timelineExpandBtn:hover {
+        background: #3d1070;
+        border-color: #9a3bff;
+    }
+
+    #timelineToggleBtn {
+        background: linear-gradient(145deg, #14107a, #0d0a74);
+        border: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        font-size: 4dvh;
+        padding: 2dvh 2dvh;
+        margin-left: 1.2dvh;
+        transition: all 0.35s ease;
+        align-items: center;
+        margin-top: 0;
+    }
+
+    #timelineToggleBtn:hover {
+        background: #3d1070;
+        border-color: #9a3bff;
+    }
+
+    #timelineContainer #timelineToggleBtn{
+        display: block;
+    }
+     #timelineContainer .aranjare{
+        width: 100%;
+     }
+
+    #timelineContainer.collapsed #timelineExpandBtn {
+        display: block;
+        background: linear-gradient(145deg, #14107a, #0d0a74);
+        border: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        padding: 0;
+        padding-bottom: 1dvh;
+        padding-left: 1dvh;
+        padding-right:1dvh;
+    }
+
+    #timelineContainer.collapsed #timelineToggleBtn {
+        display: none;
+    }
+    #timelineContainer.collapsed{
+        padding-left: 0;
+    }
+    #timelineContainer.collapsed #timelineBar{
+        margin-left: 5vw;
+        width:93%;
+    }
+    #timelineContainer.collapsed .aranjare{
+        width:99%;
+        height: 6dvh;
+    }
+    /* Icon design pentru telefon (controale timeline)*/
+    #playPause {
+        width: 13.1dvh;
+        height: 13.1dvh;
+    }
+
+    .play-icon {
+        border-left-width: 4.2dvh;
+        border-top-width: 2.4dvh;
+        border-bottom-width: 2.4dvh;
+    }
+
+    .pause-icon {
+        width: 1.8vw;
+        height: 1.8vw;
+    }
+
+    #prevStep, #nextStep {
+        width: 9.8dvh;
+        height: 9.8dvh;
+    }
+
+    #prevStep::before {
+        left: 2.1dvh;
+        border-width: 1.8dvh 2.25dvh 1.8dvh 0;
+    }
+
+    #prevStep::after {
+        left: 4.5dvh;
+        border-width: 1.8dvh 2.25dvh 1.8dvh 0;
+    }
+
+    #nextStep::before {
+        right: 2.1dvh;
+        border-width: 1.8dvh 0 1.8dvh 2.25dvh;
+    }
+
+    #nextStep::after {
+        right: 4.5dvh;
+        border-width: 1.8dvh 0 1.8dvh 2.25dvh;
+    }
+    /*share panel*/
+    .share-meta-panel{
+        color: rgb(192, 191, 203);
+    }
+    .share-meta-panel{
+        color: rgb(192, 191, 203);
+        display: flex;
+        flex-direction: column;
+        gap: 0.8dvh;
+    }
+    #nume_meta, #titlu_meta, #data_meta{
+        font-size: 3dvh;
+    }
+    .ai-sidebar-header strong{
+        padding-top:0;
+        font-size: 4.3dvh;
+        margin-top: 0;
+    }
+    .ai-sidebar-header {
+        padding: 2.5dvh 1.5vw;
+    }
+    .ai-explain-btn{
+        padding: 3.5dvh;
+        font-size: 3.5dvh;
+        height: 3.5dvh;
+        border-radius: 1dvh;
+    }
+    .ai-sidebar-item {
+        gap: 1.6dvh;
+    }
+    .ai-response {
+        height: 36dvh;
+        font-size: 3dvh;
+    }
+    .ai-response-label{
+        font-size: 3dvh;
+    }
+}
+
+@media (orientation: landscape) {
+    .share-meta-panel ~ #dragBox,
+    #dragBox:has(.share-meta-panel *:not(:empty)) {
+        padding: 1.5dvh;
+        height: 83dvh;
+    }
+    #dragBox:has(.share-meta-panel *:not(:empty)) .mobile-ai-btn.pen {
+        display: flex;
+    }
+}
+
+@media (orientation: portrait) {
+    #dragBox:has(.share-meta-panel *:not(:empty)) {
+        padding: 3vw;
+    }
+    #dragBox:has(.share-meta-panel *:not(:empty)) .mobile-ai-btn.pen {
+        display: flex;
+    }
+}
+@media (orientation: landscape) and (min-height: 700px) { 
+    #prevStep, #nextStep {
+        width: 8dvh;
+        height: 8dvh;
+    }
+    .hamburger-btn{
+        width: 11vw;
+    }
+    #nextStep::before{
+        border-width: 1.35dvh 0 1.35dvh 1.85dvh;
+    }
+    #nextStep::after{
+        border-width: 1.35dvh 0 1.35dvh 1.85dvh;
+    }
+    #prevStep::before{
+        left: 2dvh;
+        border-width: 1.35dvh 1.85dvh 1.35dvh 0;
+    }
+    #prevStep::after {
+        left: 3.9dvh;
+        border-width: 1.35dvh 1.85dvh 1.35dvh 0;
+    }
+    #playPause{
+        width: 11dvh;
+        height: 11dvh;
+    }
+    .x_icon, #speedup_text{
+        margin-top:0;
+        font-size: 3.5dvh;
+    }
+    #timelineToggleBtn{
+        font-size: 3dvh;
+        padding: 1.5dvh 1.5dvh;
+    }
+    .play-icon{
+        border-left-width: 3.15dvh;
+        border-top-width: 1.8dvh;
+        border-bottom-width: 1.8dvh;
+    }
+    #plus, #minus{
+        width: 4.5dvh;
+        height: 4.5dvh;
+        font-size: 3dvh;
+    }
+    #nextStep::after {
+        right: 3.9dvh;
+    }
+    #nextStep::before {
+        right: 2dvh;
+    }
+    #timelineBar{
+        margin-top: 0.5dvh;
+    }
+}
