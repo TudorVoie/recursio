@@ -141,7 +141,6 @@ a {
 }
 
 .lang-opt {
-    display: flex;
     align-items: center;
     gap: 10px;
     padding: 9px 10px;

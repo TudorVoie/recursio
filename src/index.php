@@ -984,7 +984,7 @@ if ($isSharedView) {
             <p id="nodes"> <?= $t['nodes'] ?>: 0</p>
             <p id="levels"> <?= $t['levels'] ?>: 0</p>
         </div>
-	<div class="disclaimer"> <?= $t['disclaimer'] ?> </div>
+	
     </div>
     <div id="shareModalOverlay" class="share-modal-overlay" aria-hidden="true">
         <div class="share-modal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">

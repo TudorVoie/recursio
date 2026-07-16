@@ -11,152 +11,13 @@ if (isset($_GET['lang']) && in_array($_GET['lang'], $allowed, true)) {
 }
 
 $lang = $_SESSION['lang'] ?? 'ro';
-if (!in_array($lang, $allowed, true)) {
+
+if (!is_file(__DIR__ . "/{$lang}.php")) {
     $lang = 'ro';
 }
 
-$T = [
-    'ro' => [
-        'title' => 'Recursio — Prezentare',
-        'hero_h' => 'Recursivitatea prinde viață',
-        'hero_p' => 'Recursio transformă o funcție recursivă într-un arbore animat: fiecare apel devine un nod, iar tu urmărești cum se construiește arborele și cum se întorc rezultatele — pas cu pas.',
-        'what_e' => 'Pe scurt',
-        'what_h' => 'Ce este recursivitatea?',
-        'what_p' => 'O funcție recursivă rezolvă o problemă apelându-se pe ea însăși cu o versiune mai mică a ei, până ajunge la un caz simplu pe care îl știe direct. Are nevoie de exact două lucruri:',
-        'base_h' => 'Cazul de bază',
-        'base_p' => 'Condiția de oprire — situația cea mai simplă, în care răspunsul se știe imediat. Fără el, recursivitatea nu se termină niciodată.',
-        'rec_h' => 'Cazul recursiv',
-        'rec_p' => 'Apelul funcției către ea însăși, dar cu o problemă puțin mai mică. Fiecare pas trebuie să se apropie de cazul de bază.',
-        'cmt_base' => '// cazul de bază',
-        'cmt_rec' => '// cazul recursiv',
-        'viz_e' => 'Ghid vizual',
-        'viz_h' => 'Ce reprezintă elementele din vizualizator',
-        'viz_p' => 'Când rulezi o funcție, Recursio desenează arborele de apeluri. Iată ce înseamnă fiecare element:',
-        'fig_cap' => 'Exemplu: arborele pentru fibonacci(6)',
-        'ph1' => 'Aici va apărea imaginea adnotată a arborelui',
-        'ph2' => '(o adaug când îmi trimiți captura din vizualizator)',
-        'leg1_h' => 'Parametru funcție',
-        'leg1_p' => 'Fiecare cerc este un apel al funcției. Numărul din interior este valoarea parametrului cu care a fost apelată.',
-        'leg2_h' => 'Linie de conexiune',
-        'leg2_p' => 'Leagă un apel de sub-apelurile pe care le declanșează, formând ramurile arborelui.',
-        'leg3_h' => 'Direcție',
-        'leg3_p' => 'Indică sensul în care avansează recursivitatea, de la apelul inițial spre cazul de bază.',
-        'leg4_h' => 'Valoare returnată',
-        'leg4_p' => 'Numărul colorat arată ce returnează un apel după ce s-a terminat.',
-        'leg5_h' => 'Valoare returnată finală',
-        'leg5_p' => 'Rezultatul întors de apelul de la rădăcină — răspunsul final al recursivității.',
-        'ai_e' => 'Asistent AI',
-        'ai_h' => 'Învață cu un asistent AI alături',
-        'ai_p' => 'Recursio are un asistent AI integrat, ca un tutor mereu la îndemână. Nu îți dă doar răspunsul — te ajută să înțelegi ce se întâmplă în spatele recursivității.',
-        'ai1_h' => 'Îți explică propriul cod',
-        'ai1_p' => 'Când rulezi o funcție, Recursio îi cere AI-ului să descrie ce face codul tău, pe limbajul tău — fără să sapi prin documentații.',
-        'ai2_h' => 'Răspunde la întrebările tale',
-        'ai2_p' => 'Deschide asistentul din bara laterală și întreabă orice despre codul tău sau despre recursivitate. Ține minte conversația, așa că poți continua cu întrebări.',
-        'ai3_h' => 'Te ajută să înțelegi și să depanezi',
-        'ai3_p' => 'Blocat la un stack overflow sau nu găsești cazul de bază? Cere-i AI-ului să urmărească apelurile pas cu pas și să-ți arate unde e problema.',
-        'ai_tip_h' => 'Idei de întrebări:',
-        'ai_q1' => 'De ce dă funcția mea stack overflow?',
-        'ai_q2' => 'Explică-mi pas cu pas ce face fibonacci(5).',
-        'ai_q3' => 'Care e cazul de bază aici și de ce e nevoie de el?',
-        'cta_h' => 'Gata de încercat?',
-        'cta_p' => 'Scrie-ți propria funcție recursivă și urmărește arborele construindu-se în timp real.',
-        'cta_btn' => 'Deschide vizualizatorul',
-    ],
-    'en' => [
-        'title' => 'Recursio — Overview',
-        'hero_h' => 'Recursion comes to life',
-        'hero_p' => 'Recursio turns a recursive function into an animated tree: every call becomes a node, and you watch the tree build up and the results come back — step by step.',
-        'what_e' => 'In short',
-        'what_h' => 'What is recursion?',
-        'what_p' => 'A recursive function solves a problem by calling itself on a smaller version of it, until it reaches a simple case it knows directly. It needs exactly two things:',
-        'base_h' => 'The base case',
-        'base_p' => 'The stopping condition — the simplest situation, where the answer is known at once. Without it, recursion never ends.',
-        'rec_h' => 'The recursive case',
-        'rec_p' => 'The function calling itself, but on a slightly smaller problem. Every step must move closer to the base case.',
-        'cmt_base' => '// base case',
-        'cmt_rec' => '// recursive case',
-        'viz_e' => 'Visual guide',
-        'viz_h' => 'What the visualizer elements mean',
-        'viz_p' => 'When you run a function, Recursio draws the call tree. Here is what each element means:',
-        'fig_cap' => 'Example: the tree for fibonacci(6)',
-        'ph1' => 'The annotated tree image will go here',
-        'ph2' => '(I will add it when you send the screenshot from the visualizer)',
-        'leg1_h' => 'Function parameter',
-        'leg1_p' => 'Each circle is a function call. The number inside is the parameter value it was called with.',
-        'leg2_h' => 'Connection line',
-        'leg2_p' => 'Links a call to the sub-calls it triggers, forming the branches of the tree.',
-        'leg3_h' => 'Direction',
-        'leg3_p' => 'Shows the way recursion moves, from the initial call down to the base case.',
-        'leg4_h' => 'Returned value',
-        'leg4_p' => 'The colored number shows what a call returns once it has finished.',
-        'leg5_h' => 'Final returned value',
-        'leg5_p' => 'The result returned by the root call — the final answer of the recursion.',
-        'ai_e' => 'AI assistant',
-        'ai_h' => 'Learn with an AI assistant by your side',
-        'ai_p' => 'Recursio has a built-in AI assistant, like a tutor always within reach. It does not just hand you the answer — it helps you understand what is happening behind the recursion.',
-        'ai1_h' => 'Explains your own code',
-        'ai1_p' => 'When you run a function, Recursio asks the AI to describe what your code does, in plain language — no digging through docs.',
-        'ai2_h' => 'Answers your questions',
-        'ai2_p' => 'Open the assistant in the sidebar and ask anything about your code or recursion. It remembers the conversation, so you can keep asking follow-ups.',
-        'ai3_h' => 'Helps you understand and debug',
-        'ai3_p' => 'Stuck on a stack overflow or cannot find the base case? Ask the AI to trace the calls step by step and point out where things go wrong.',
-        'ai_tip_h' => 'Questions you could ask:',
-        'ai_q1' => 'Why does my function cause a stack overflow?',
-        'ai_q2' => 'Walk me through what fibonacci(5) does, step by step.',
-        'ai_q3' => 'What is the base case here and why is it needed?',
-        'cta_h' => 'Ready to try it?',
-        'cta_p' => 'Write your own recursive function and watch the tree build up in real time.',
-        'cta_btn' => 'Open the visualizer',
-    ],
-    'hu' => [
-        'title' => 'Recursio — Bemutató',
-        'hero_h' => 'A rekurzió életre kel',
-        'hero_p' => 'A Recursio egy rekurzív függvényt animált fává alakít: minden hívás egy csomópont lesz, te pedig végignézed, ahogy a fa felépül és az eredmények visszatérnek — lépésről lépésre.',
-        'what_e' => 'Röviden',
-        'what_h' => 'Mi a rekurzió?',
-        'what_p' => 'A rekurzív függvény úgy old meg egy feladatot, hogy önmagát hívja meg annak egy kisebb változatával, amíg el nem ér egy egyszerű esethez, amelyet közvetlenül ismer. Pontosan két dologra van szüksége:',
-        'base_h' => 'Az alapeset',
-        'base_p' => 'A leállási feltétel — a legegyszerűbb helyzet, ahol a válasz azonnal ismert. Nélküle a rekurzió sosem ér véget.',
-        'rec_h' => 'A rekurzív eset',
-        'rec_p' => 'A függvény önmagát hívja, de egy kicsit kisebb feladattal. Minden lépésnek közelednie kell az alapesethez.',
-        'cmt_base' => '// alapeset',
-        'cmt_rec' => '// rekurzív eset',
-        'viz_e' => 'Vizuális útmutató',
-        'viz_h' => 'Mit jelentenek a vizualizáló elemei',
-        'viz_p' => 'Amikor lefuttatsz egy függvényt, a Recursio megrajzolja a hívási fát. Íme, mit jelent minden elem:',
-        'fig_cap' => 'Példa: a fibonacci(6) fája',
-        'ph1' => 'Ide kerül a fa feliratozott képe',
-        'ph2' => '(hozzáadom, amint elküldöd a képernyőképet a vizualizálóból)',
-        'leg1_h' => 'Függvényparaméter',
-        'leg1_p' => 'Minden kör egy függvényhívás. A benne lévő szám az a paraméterérték, amellyel meghívták.',
-        'leg2_h' => 'Összekötő vonal',
-        'leg2_p' => 'Egy hívást összeköt az általa kiváltott alhívásokkal, így alakulnak ki a fa ágai.',
-        'leg3_h' => 'Irány',
-        'leg3_p' => 'Megmutatja, merre halad a rekurzió, a kezdeti hívástól az alapeset felé.',
-        'leg4_h' => 'Visszatérési érték',
-        'leg4_p' => 'A színes szám azt mutatja, mit ad vissza egy hívás, miután befejeződött.',
-        'leg5_h' => 'Végső visszatérési érték',
-        'leg5_p' => 'A gyökérhívás által visszaadott eredmény — a rekurzió végső válasza.',
-        'ai_e' => 'AI asszisztens',
-        'ai_h' => 'Tanulj egy AI asszisztenssel az oldaladon',
-        'ai_p' => 'A Recursio beépített AI asszisztenssel rendelkezik, mint egy mindig kéznél lévő korrepetitor. Nemcsak megadja a választ — segít megérteni, mi történik a rekurzió mögött.',
-        'ai1_h' => 'Elmagyarázza a saját kódodat',
-        'ai1_p' => 'Amikor lefuttatsz egy függvényt, a Recursio megkéri az AI-t, hogy egyszerű nyelven leírja, mit csinál a kódod — nem kell dokumentációkban keresgélned.',
-        'ai2_h' => 'Válaszol a kérdéseidre',
-        'ai2_p' => 'Nyisd meg az asszisztenst az oldalsávban, és kérdezz bármit a kódodról vagy a rekurzióról. Megjegyzi a beszélgetést, így folytathatod a kérdéseket.',
-        'ai3_h' => 'Segít megérteni és hibát keresni',
-        'ai3_p' => 'Elakadtál egy stack overflow-nál, vagy nem találod az alapesetet? Kérd meg az AI-t, hogy lépésről lépésre kövesse a hívásokat, és mutassa meg, hol a hiba.',
-        'ai_tip_h' => 'Kérdésötletek:',
-        'ai_q1' => 'Miért okoz a függvényem stack overflow-t?',
-        'ai_q2' => 'Vezess végig lépésről lépésre, mit csinál a fibonacci(5).',
-        'ai_q3' => 'Mi itt az alapeset, és miért van rá szükség?',
-        'cta_h' => 'Kipróbálod?',
-        'cta_p' => 'Írd meg a saját rekurzív függvényedet, és nézd, ahogy a fa valós időben felépül.',
-        'cta_btn' => 'Vizualizáló megnyitása',
-    ],
-];
+$t = require __DIR__ . "/{$lang}.php";
 
-$t = $T[$lang];
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang ?>">
@@ -180,11 +41,12 @@ $t = $T[$lang];
                 <span class="chev">&#9660;</span>
             </button>
             <div class="lang-menu">
-                <?php foreach (['ro' => 'Română', 'en' => 'English', 'hu' => 'Magyar'] as $code => $name): ?>
-                    <a class="lang-opt <?= $lang === $code ? 'active' : '' ?>" href="ghid.php?lang=<?= $code ?>">
-                        <img src="<?= $code ?>.png" alt="<?= $code ?>"><span><?= $name ?></span>
-                    </a>
-                <?php endforeach; ?>
+                <?php foreach (['ro', 'en', 'hu'] as $code): ?>
+    <a class="lang-opt <?= $lang === $code ? 'active' : '' ?>"
+       href="set_lang.php?lang=<?= urlencode($code) ?>&redirect=ghid.php">
+        <img src="<?= $code ?>.png" alt="<?= strtoupper($code) ?>">
+    </a>
+<?php endforeach; ?>
             </div>
         </div>
     </div>
